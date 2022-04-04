@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "FPSProjectile.h"
 #include "MyCharacter.generated.h"
 
 UCLASS()
@@ -22,6 +23,11 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
+	// Gun muzzle offset from the camera location.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		FVector MuzzleOffset;
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class AFPSProjectile> ProjectileClass;
 
 protected:
 	// Called when the game starts or when spawned
@@ -46,5 +52,9 @@ public:
 	
 	UFUNCTION()
 		void StopJump();
+
+
+	UFUNCTION()
+		void Fire();
 
 };
