@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include <string> 
 #include "MyCharacter.h"
-#include <thread>
+
 // Sets default values
 AMyCharacter::AMyCharacter()
 {
@@ -11,9 +11,14 @@ AMyCharacter::AMyCharacter()
 
 	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
+	CurrentGun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PersonGunMesh"));
+
 
 	check(FPSMesh != nullptr);
 	check(FPSCameraComponent != nullptr);
+	check(CurrentGun != nullptr);
+
+
 	FPSCameraComponent->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent()));
 
 	FPSCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f + BaseEyeHeight));
@@ -30,7 +35,17 @@ AMyCharacter::AMyCharacter()
 	FPSMesh->bCastDynamicShadow = false;
 	FPSMesh->CastShadow = false;
 
+	CurrentGun->SetupAttachment(RootComponent);
+	CurrentGun->bCastDynamicShadow = false;
+	CurrentGun->CastShadow = false;
+
+
 	GetMesh()->SetOwnerNoSee(true);
+
+
+	
+
+	
 }
 
 // Called when the game starts or when spawned
@@ -38,7 +53,9 @@ void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	FirstBulletsInGunInit();
 
+	healthPoint = 100;
 	
 	
 }
@@ -64,6 +81,9 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::StopJump);
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::Fire);
+
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMyCharacter::ReloadWeapon);
+
 }
 
 void AMyCharacter::MoveForward(float value)
@@ -89,8 +109,11 @@ void AMyCharacter::StopJump()
 }
 void AMyCharacter::Fire()
 {
-	if (ProjectileClass)
+	if (ProjectileClass )
 	{
+		
+		
+
 		FVector CameraLocation;
 		FRotator CameraRotation;
 
@@ -127,4 +150,27 @@ void AMyCharacter::Fire()
 			}
 		}
 	}
+	
 }
+
+void AMyCharacter::FirstBulletsInGunInit() {
+
+	maxBulletsInMagazine = 30;
+	countBullets = maxBulletsInMagazine*4;
+	currentBulletsInMagazine = maxBulletsInMagazine;
+}
+
+bool AMyCharacter::MagazineIsNotEmpty()	 { return currentBulletsInMagazine > 0; }
+
+bool AMyCharacter::HaveBullets()  { return countBullets > 0; }
+
+void AMyCharacter::ReloadWeapon()
+{
+	if (HaveBullets())
+	{
+		countBullets -= currentBulletsInMagazine;
+		currentBulletsInMagazine = maxBulletsInMagazine;
+	}
+}
+
+
