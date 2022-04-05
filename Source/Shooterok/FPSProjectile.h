@@ -17,7 +17,7 @@ public:
 	// Sets default values for this actor's properties
 	AFPSProjectile();
 
-
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -34,5 +34,13 @@ public:
 
 	void FireInDirection(const FVector& ShootDirection);
 
+	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
+		UStaticMeshComponent* ProjectileMeshComponent;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Movement)
+		UMaterialInstanceDynamic* ProjectileMaterialInstance;
+
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 };
