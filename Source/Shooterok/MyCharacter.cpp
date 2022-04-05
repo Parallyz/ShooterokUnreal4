@@ -35,7 +35,7 @@ AMyCharacter::AMyCharacter()
 	FPSMesh->bCastDynamicShadow = false;
 	FPSMesh->CastShadow = false;
 
-	CurrentGun->SetupAttachment(RootComponent);
+	CurrentGun->SetupAttachment(FPSCameraComponent);
 	CurrentGun->bCastDynamicShadow = false;
 	CurrentGun->CastShadow = false;
 
@@ -129,7 +129,7 @@ void AMyCharacter::Fire()
 
 		// Skew the aim to be slightly upwards.
 		FRotator MuzzleRotation = CameraRotation;
-		MuzzleRotation.Pitch += 10.0f;
+		// MuzzleRotation.Pitch += 2.5f;
 
 
 		UWorld* World = GetWorld();

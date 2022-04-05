@@ -34,5 +34,15 @@ public:
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, 
 			FVector NormalImpulse, const FHitResult& Hit);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+		int healthPoint;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+		int expirienceByKill;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+		int damageFromBullets;
+
+	UFUNCTION()
+		void DealDamage(float damage);
 };

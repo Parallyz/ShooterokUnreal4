@@ -43,3 +43,12 @@ void AEnemy::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Hello World, this is FPSGameMode!"));
 }
 
+void AEnemy::DealDamage(float damage)
+{
+	healthPoint -= damage;
+	if (healthPoint <= 0)
+	{
+		Destroy();
+	}
+}
+
