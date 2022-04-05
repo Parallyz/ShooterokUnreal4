@@ -9,19 +9,19 @@ AEnemy::AEnemy()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-//	EnemyMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("EnemyPersonMesh"));
-//	EnemyGun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("EnemyPersonGunMesh"));
+	EnemyPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("EnemyPersonMesh"));
+	EnemyPersonGunMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("EnemyPersonGunMesh"));
 
-	//check(!EnemyMesh);
-	//check(!EnemyGun);
+	check(EnemyPersonMesh != nullptr);
+	check(EnemyPersonGunMesh != nullptr);
 
 
-	//EnemyGun->SetupAttachment(RootComponent);
-//	EnemyGun->bCastDynamicShadow = false;
-//	EnemyGun->CastShadow = false;
+	EnemyPersonGunMesh->SetupAttachment(RootComponent);
+	EnemyPersonGunMesh->bCastDynamicShadow = false;
+	EnemyPersonGunMesh->CastShadow = false;
 
-//	EnemyMesh->bCastDynamicShadow = false;
-//	EnemyMesh->CastShadow = false;
+	EnemyPersonMesh->bCastDynamicShadow = false;
+	EnemyPersonMesh->CastShadow = false;
 }
 
 // Called when the game starts or when spawned

@@ -24,11 +24,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	/*UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		USkeletalMeshComponent* EnemyMesh;
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		USkeletalMeshComponent* EnemyPersonMesh;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		USkeletalMeshComponent* EnemyGun;*/
+		USkeletalMeshComponent* EnemyPersonGunMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int healthPoint;
