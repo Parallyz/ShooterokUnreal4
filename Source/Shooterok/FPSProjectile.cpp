@@ -92,6 +92,7 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor
 		//OtherActor->Destroy();
 	}
 	
+	
 	Destroy();
 }
 
