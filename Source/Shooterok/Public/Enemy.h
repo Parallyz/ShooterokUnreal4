@@ -3,17 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "Components/CapsuleComponent.h"
+#include "GameFramework/Character.h"
 #include "Enemy.generated.h"
 
 UCLASS()
-class SHOOTEROK_API AEnemy : public AActor
+class SHOOTEROK_API AEnemy : public ACharacter
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
+
+public:
+	// Sets default values for this character's properties
 	AEnemy();
 
 protected:
@@ -24,20 +23,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		USkeletalMeshComponent* EnemyPersonMesh;
-
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		USkeletalMeshComponent* EnemyPersonGunMesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int healthPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int expirienceByKill;
-
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int damageFromBullets;
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
