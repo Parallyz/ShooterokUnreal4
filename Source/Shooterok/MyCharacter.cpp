@@ -36,7 +36,7 @@ AMyCharacter::AMyCharacter()
 	FPSMesh->CastShadow = false;
 
 
-	CurrentGun->SetupAttachment(FPSCameraComponent);
+	CurrentGun->SetupAttachment(FPSMesh);
 	CurrentGun->bCastDynamicShadow = false;
 	CurrentGun->CastShadow = false;
 
