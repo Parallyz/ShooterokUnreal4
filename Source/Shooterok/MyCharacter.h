@@ -54,6 +54,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int damageFromBullets;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundBase* FireSound;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

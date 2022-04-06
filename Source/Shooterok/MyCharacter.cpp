@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "Kismet/GameplayStatics.h"
 #include "MyCharacter.h"
 
 // Sets default values
@@ -121,7 +122,7 @@ void AMyCharacter::Fire()
 		GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
 		// Set MuzzleOffset to spawn projectiles slightly in front of the camera.
-		MuzzleOffset.Set(100.0f, 20.0f, 40.0f);
+		MuzzleOffset.Set(120.0f, 18.0f, 36.0f);
 
 
 		// Transform MuzzleOffset from camera space to world space.
@@ -149,6 +150,11 @@ void AMyCharacter::Fire()
 				FVector LaunchDirection = MuzzleRotation.Vector();
 				Projectile->FireInDirection(LaunchDirection);
 			}
+		}
+
+		if (FireSound != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 		}
 	}
 	
