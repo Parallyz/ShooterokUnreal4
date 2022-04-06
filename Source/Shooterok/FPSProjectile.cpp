@@ -11,6 +11,7 @@ AFPSProjectile::AFPSProjectile()
 
 	if (!RootComponent)
 	{
+	
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSceneComponent"));
 	}
 	if (!CollisionComponent)
@@ -54,6 +55,7 @@ AFPSProjectile::AFPSProjectile()
 		{
 			ProjectileMaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, ProjectileMeshComponent);
 		}
+		
 		ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
 		ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
 		ProjectileMeshComponent->SetupAttachment(RootComponent);
