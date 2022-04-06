@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include <string> 
+
 #include "MyCharacter.h"
 
 // Sets default values
@@ -110,11 +110,11 @@ void AMyCharacter::StopJump()
 }
 void AMyCharacter::Fire()
 {
+		
 	if (ProjectileClass )
 	{
 		
 		
-
 		FVector CameraLocation;
 		FRotator CameraRotation;
 
@@ -132,7 +132,7 @@ void AMyCharacter::Fire()
 		FRotator MuzzleRotation = CameraRotation;
 		// MuzzleRotation.Pitch += 2.5f;
 
-
+		
 		UWorld* World = GetWorld();
 		if (World)
 		{
