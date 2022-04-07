@@ -6,7 +6,9 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "FPSProjectile.h"
+#include <WeaponBuilder.h>
 #include "MyCharacter.generated.h"
 
 UCLASS()
@@ -18,19 +20,29 @@ public:
 	// Sets default values for this character's properties
 	AMyCharacter();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		float BaseTurnRate;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		float BaseLookUpRate;
+
 	UPROPERTY(VisibleAnywhere)
 		UCameraComponent* FPSCameraComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
 	// Gun muzzle offset from the camera location.
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		FVector MuzzleOffset;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	//	FVector MuzzleOffset;
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		USkeletalMeshComponent* CurrentGun;
+	Weapon* weapon;
+	/*UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		USkeletalMeshComponent* CurrentGun;*/
+
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		FVector GunOffset;*/
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int healthPoint;
@@ -41,21 +53,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int level;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int maxBulletsInMagazine;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int countBullets;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int currentBulletsInMagazine;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int damageFromBullets;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		USoundBase* FireSound;
+	
+
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundBase* FireSound;*/
 
 protected:
 	// Called when the game starts or when spawned
@@ -68,6 +73,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+	void TurnAtRate(float Rate);
+
+	
+	void LookUpAtRate(float Rate);
 	UFUNCTION()
 		void MoveForward(float value);
 
@@ -85,14 +95,7 @@ public:
 	UFUNCTION()
 		void Fire();
 
-	UFUNCTION()
-		void FirstBulletsInGunInit();
 
-	UFUNCTION()
-		bool MagazineIsNotEmpty();
-
-	UFUNCTION()
-		bool HaveBullets();
 	UFUNCTION()
 		void ReloadWeapon();
 

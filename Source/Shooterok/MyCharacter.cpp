@@ -1,53 +1,110 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Kismet/GameplayStatics.h"
 #include "MyCharacter.h"
+
+
 
 // Sets default values
 AMyCharacter::AMyCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	GetCapsuleComponent()->InitCapsuleSize(70.f, 80.0f);
+
+	BaseTurnRate = 45.f;
+	BaseLookUpRate = 45.f;
+
+
 	PrimaryActorTick.bCanEverTick = true;
 
 	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
-	CurrentGun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PersonGunMesh"));
+	//CurrentGun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PersonGunMesh"));
 
+	
+	auto CurrentGun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PersonGunMesh"));
+	
 
 	check(FPSMesh != nullptr);
 	check(FPSCameraComponent != nullptr);
 	check(CurrentGun != nullptr);
 
 
+	
 	FPSCameraComponent->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent()));
 
 	FPSCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f + BaseEyeHeight));
 
 	FPSCameraComponent->bUsePawnControlRotation = true;
 
+	
+
+
 
 	FPSMesh->SetOnlyOwnerSee(true);
 
-	// Attach the FPS mesh to the FPS camera.
 	FPSMesh->SetupAttachment(FPSCameraComponent);
 
-	// Disable some environmental shadows to preserve the illusion of having a single mesh.
 	FPSMesh->bCastDynamicShadow = false;
 	FPSMesh->CastShadow = false;
 
 
-	CurrentGun->SetupAttachment(FPSMesh);
-	CurrentGun->bCastDynamicShadow = false;
-	CurrentGun->CastShadow = false;
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh>MyMesh(TEXT("'/Game/Mesh/FPSArms_rigged.FPSArms_rigged'"));
+
+	if (MyMesh.Succeeded())
+	{
+		FPSMesh->SetSkeletalMesh(MyMesh.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/Mesh/FPSArms_D_Mat.FPSArms_D_Mat'"));
+	if (Material.Succeeded())
+	{
+		auto MaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, FPSMesh);
+		FPSMesh->SetMaterial(0, MaterialInstance);
+		FPSMesh->SetMaterial(1, MaterialInstance);
 
 
-	GetMesh()->SetOwnerNoSee(true);
+	}
 
+	auto weaponBuilder = new RifleBuilder();
+
+	weaponBuilder->CreateWeapon(CurrentGun);
+	weaponBuilder->SetMuzzleOffset();
+
+	weapon = weaponBuilder->GetWeapon();
+
+
+	FPSMesh->SetRelativeLocation(FVector(6.8f, 8.75f, -17.47f));
+	FPSMesh->SetRelativeRotation(FRotator(-0.43f, 4.98f, -10.01f));
+
+	/*weapon->GunMesh->SetRelativeLocation(FVector(11.24f, 5.15f, 0.57f));
+	weapon->GunMesh->SetRelativeRotation(FRotator(0, 0, -84.99f));*/
+
+
+	weapon->GunMesh->SetupAttachment(FPSMesh);
+	weapon->GunMesh->bCastDynamicShadow = false;
+	weapon->GunMesh->CastShadow = false;
+
+	//GetMesh()->SetOwnerNoSee(true);
+
+
+	/*static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/MilitaryWeapDark/Sound/Rifle/Wavs/RifleB_Fire_ST01.RifleB_Fire_ST01'"));
+
+	if (Sound.Succeeded())
+	{
+		FireSound = Sound.Object;
+	}*/
 
 	
+}
 
-	
+void AMyCharacter::TurnAtRate(float Rate)
+{
+	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AMyCharacter::LookUpAtRate(float Rate)
+{
+	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 // Called when the game starts or when spawned
@@ -55,7 +112,9 @@ void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FirstBulletsInGunInit();
+	weapon->GunMesh->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+
+	// FirstBulletsInGunInit();
 
 	healthPoint = 100;
 	
@@ -76,8 +135,8 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMyCharacter::MoveRight);
 
-	PlayerInputComponent->BindAxis("Turn", this, &AMyCharacter::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("LookUp", this, &AMyCharacter::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("Turn", this, &AMyCharacter::TurnAtRate);
+	PlayerInputComponent->BindAxis("LookUp", this, &AMyCharacter::LookUpAtRate);
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::StopJump);
@@ -111,7 +170,7 @@ void AMyCharacter::StopJump()
 }
 void AMyCharacter::Fire()
 {
-		
+
 	if (ProjectileClass )
 	{
 		
@@ -122,11 +181,11 @@ void AMyCharacter::Fire()
 		GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
 		// Set MuzzleOffset to spawn projectiles slightly in front of the camera.
-		MuzzleOffset.Set(120.0f, 18.0f, 36.0f);
-
+		
+		weapon->Fire();
 
 		// Transform MuzzleOffset from camera space to world space.
-		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
+		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
 
 
 		// Skew the aim to be slightly upwards.
@@ -151,33 +210,22 @@ void AMyCharacter::Fire()
 				Projectile->FireInDirection(LaunchDirection);
 			}
 		}
-
-		if (FireSound != nullptr)
+		
+		if (weapon->FireSound != nullptr)
 		{
-			UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+			UGameplayStatics::PlaySoundAtLocation(this, weapon->FireSound, GetActorLocation());
 		}
 	}
 	
 }
 
-void AMyCharacter::FirstBulletsInGunInit() {
 
-	maxBulletsInMagazine = 30;
-	countBullets = maxBulletsInMagazine*4;
-	currentBulletsInMagazine = maxBulletsInMagazine;
-}
 
-bool AMyCharacter::MagazineIsNotEmpty()	 { return currentBulletsInMagazine > 0; }
 
-bool AMyCharacter::HaveBullets()  { return countBullets > 0; }
 
 void AMyCharacter::ReloadWeapon()
 {
-	if (HaveBullets())
-	{
-		countBullets -= currentBulletsInMagazine;
-		currentBulletsInMagazine = maxBulletsInMagazine;
-	}
+	weapon->Reload();
 }
 
 
