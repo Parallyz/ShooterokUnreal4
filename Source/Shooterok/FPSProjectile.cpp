@@ -16,10 +16,11 @@ AFPSProjectile::AFPSProjectile()
 	}
 	if (!CollisionComponent)
 	{
+		
 		// Use a sphere as a simple collision representation.
 		CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 		// Set the sphere's collision radius.
-		CollisionComponent->InitSphereRadius(5.0f);
+		CollisionComponent->InitSphereRadius(0.5f);
 
 		CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 
@@ -55,7 +56,7 @@ AFPSProjectile::AFPSProjectile()
 		{
 			ProjectileMaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, ProjectileMeshComponent);
 		}
-		
+		RootComponent->SetWorldScale3D(FVector(0.09f, 0.09f, 0.09f));
 		ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
 		ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
 		ProjectileMeshComponent->SetupAttachment(RootComponent);
