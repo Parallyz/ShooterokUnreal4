@@ -80,19 +80,14 @@ AMyCharacter::AMyCharacter()
 	weapon->GunMesh->SetRelativeRotation(FRotator(0, 0, -84.99f));*/
 
 
-	weapon->GunMesh->SetupAttachment(FPSMesh);
-	weapon->GunMesh->bCastDynamicShadow = false;
-	weapon->GunMesh->CastShadow = false;
+//	weapon->GunMesh->SetupAttachment(FPSMesh);
+	//weapon->GunMesh->bCastDynamicShadow = false;
+	//weapon->GunMesh->CastShadow = false;
 
 	//GetMesh()->SetOwnerNoSee(true);
 
 
-	/*static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/MilitaryWeapDark/Sound/Rifle/Wavs/RifleB_Fire_ST01.RifleB_Fire_ST01'"));
-
-	if (Sound.Succeeded())
-	{
-		FireSound = Sound.Object;
-	}*/
+	
 
 	
 }
@@ -112,7 +107,7 @@ void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	weapon->GunMesh->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	//weapon->GunMesh->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 
 	// FirstBulletsInGunInit();
 
