@@ -5,6 +5,7 @@
 
 Weapon::Weapon()
 {
+	//FireSound = new USoundBase();
 }
 
 Weapon::~Weapon()
@@ -12,26 +13,6 @@ Weapon::~Weapon()
 
 }
 
-Weapon::Weapon(USkeletalMeshComponent* _GunMesh)
-{
-	GunMesh = _GunMesh;
-
-	check(GunMesh != nullptr);
-
-
-
-	/*static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/Mesh/FPSArms_D_Mat.FPSArms_D_Mat'"));
-	if (Material.Succeeded())
-	{
-		auto MaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, FPSMesh);
-		FPSMesh->SetMaterial(0, MaterialInstance);
-		FPSMesh->SetMaterial(1, MaterialInstance);
-
-
-	}*/
-
-
-}
 
 
 bool Weapon::MagazineIsNotEmpty()

@@ -38,8 +38,7 @@ public:
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
 
 	Weapon* weapon;
-	/*UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		USkeletalMeshComponent* CurrentGun;*/
+
 
 	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector GunOffset;*/
@@ -53,7 +52,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int level;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		UAnimMontage* FireAnimation;
 
 
 
@@ -98,5 +98,7 @@ public:
 
 	UFUNCTION()
 		void ReloadWeapon();
+
+
 
 };
