@@ -18,15 +18,15 @@ AMyCharacter::AMyCharacter()
 
 	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
-	//CurrentGun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PersonGunMesh"));
+	
 
 	
-	auto CurrentGun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PersonGunMesh"));
+	//auto CurrentGun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PersonGunMesh"));
 	
 
 	check(FPSMesh != nullptr);
 	check(FPSCameraComponent != nullptr);
-	check(CurrentGun != nullptr);
+	
 
 
 	
@@ -48,27 +48,12 @@ AMyCharacter::AMyCharacter()
 	FPSMesh->CastShadow = false;
 
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh>MyMesh(TEXT("'/Game/Mesh/FPSArms_rigged.FPSArms_rigged'"));
-
-	if (MyMesh.Succeeded())
-	{
-		FPSMesh->SetSkeletalMesh(MyMesh.Object);
-	}
-
-	static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/Mesh/FPSArms_D_Mat.FPSArms_D_Mat'"));
-	if (Material.Succeeded())
-	{
-		auto MaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, FPSMesh);
-		FPSMesh->SetMaterial(0, MaterialInstance);
-		FPSMesh->SetMaterial(1, MaterialInstance);
-
-
-	}
+	//FirstFPSMeshInit();
 
 	auto weaponBuilder = new RifleBuilder();
 
-	weaponBuilder->CreateWeapon(CurrentGun);
-	weaponBuilder->SetMuzzleOffset();
+	weaponBuilder->CreateWeapon();
+	
 
 	weapon = weaponBuilder->GetWeapon();
 
@@ -76,21 +61,35 @@ AMyCharacter::AMyCharacter()
 	FPSMesh->SetRelativeLocation(FVector(6.8f, 8.75f, -17.47f));
 	FPSMesh->SetRelativeRotation(FRotator(-0.43f, 4.98f, -10.01f));
 
-	/*weapon->GunMesh->SetRelativeLocation(FVector(11.24f, 5.15f, 0.57f));
-	weapon->GunMesh->SetRelativeRotation(FRotator(0, 0, -84.99f));*/
+	
 
-
-//	weapon->GunMesh->SetupAttachment(FPSMesh);
-	//weapon->GunMesh->bCastDynamicShadow = false;
-	//weapon->GunMesh->CastShadow = false;
-
-	//GetMesh()->SetOwnerNoSee(true);
+	GetMesh()->SetOwnerNoSee(true);
 
 
 	
 
 	
 }
+//void AMyCharacter::FirstFPSMeshInit() {
+//
+//	static ConstructorHelpers::FObjectFinder<USkeletalMesh>MyMesh(TEXT("'/Game/Mesh/FPSArms_rigged.FPSArms_rigged'"));
+//
+//	if (MyMesh.Succeeded())
+//	{
+//		FPSMesh->SetSkeletalMesh(MyMesh.Object);
+//	}
+//
+//	static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/Mesh/FPSArms_D_Mat.FPSArms_D_Mat'"));
+//	if (Material.Succeeded())
+//	{
+//		auto MaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, FPSMesh);
+//		FPSMesh->SetMaterial(0, MaterialInstance);
+//		FPSMesh->SetMaterial(1, MaterialInstance);
+//
+//
+//	}
+//}
+
 
 void AMyCharacter::TurnAtRate(float Rate)
 {
@@ -107,9 +106,7 @@ void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//weapon->GunMesh->AttachToComponent(FPSMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-
-	// FirstBulletsInGunInit();
+	
 
 	healthPoint = 100;
 	
@@ -177,7 +174,7 @@ void AMyCharacter::Fire()
 
 	
 		
-		weapon->Fire();
+		//weapon->Fire();
 
 
 		// Transform MuzzleOffset from camera space to world space.
@@ -210,6 +207,16 @@ void AMyCharacter::Fire()
 		if (weapon->FireSound != nullptr)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->FireSound, GetActorLocation());
+		}
+
+		if (FireAnimation != nullptr)
+		{
+			// Get the animation object for the arms mesh
+			UAnimInstance* AnimInstance = FPSMesh->GetAnimInstance();
+			if (AnimInstance != nullptr)
+			{
+				AnimInstance->Montage_Play(FireAnimation, 1.f);
+			}
 		}
 	}
 	

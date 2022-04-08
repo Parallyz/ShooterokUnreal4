@@ -14,11 +14,11 @@ WeaponBuilder::~WeaponBuilder() {
 	delete weapon;
 }
 
-void WeaponBuilder::SetFPSMesh() {}
+
 
 void WeaponBuilder::SetMuzzleOffset() {}
 
-void WeaponBuilder::SetGunMesh() {}
+
 
 void WeaponBuilder::SetFireSound() {}
 
@@ -39,9 +39,9 @@ void WeaponBuilder::SetdamageFromBullets() {}
 
 Weapon* WeaponBuilder::GetWeapon() { return this->weapon; }
 
-void WeaponBuilder::CreateWeapon(USkeletalMeshComponent* GunMesh)
+void WeaponBuilder::CreateWeapon()
 {
-	this->weapon = new Weapon( GunMesh);
+	this->weapon = new Weapon();
 
 	
 }
@@ -51,29 +51,13 @@ void WeaponBuilder::CreateWeapon(USkeletalMeshComponent* GunMesh)
 #pragma region RifleBuilder
 
 
-void RifleBuilder::SetFPSMesh()
-{
-	/*static ConstructorHelpers::FObjectFinder<USkeletalMesh>Mesh(TEXT("'/Game/Mesh/FPSArms_rigged.FPSArms_rigged'"));
-	
-	if (Mesh.Succeeded())
-	{
-		weapon->FPSMesh->SetSkeletalMesh(Mesh.Object);
-	}*/
-}
+
 void RifleBuilder::SetMuzzleOffset()
 {
 	weapon->MuzzleOffset = FVector(120.0f, 18.0f, 36.0f);
 }
 
-void RifleBuilder::SetGunMesh()
-{
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh>Mesh(TEXT("'/Game/MilitaryWeapDark/Weapons/Assault_Rifle_B.Assault_Rifle_B'"));
-	
-	if (Mesh.Succeeded())
-	{
-		weapon->GunMesh->SetSkeletalMesh(Mesh.Object);
-	}
-}
+
 
 void RifleBuilder::SetFireSound()
 {
@@ -112,14 +96,13 @@ void RifleBuilder::SetCountBullet()
 
 
 
-void RifleBuilder::CreateWeapon( USkeletalMeshComponent* GunMesh)
+void RifleBuilder::CreateWeapon()
 {
-	WeaponBuilder::CreateWeapon( GunMesh);
+	WeaponBuilder::CreateWeapon();
 	RifleBuilder::SetmaxBulletsInMagazine();
 	RifleBuilder::SetdamageFromBullets();
 	RifleBuilder::SetLevelOfWeapon();
 	RifleBuilder::SetFireSound();
-	RifleBuilder::SetGunMesh();
 	RifleBuilder::SetMuzzleOffset();
 	RifleBuilder::SetCountBullet();
 }

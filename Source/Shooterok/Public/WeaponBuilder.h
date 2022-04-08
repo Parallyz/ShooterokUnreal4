@@ -17,9 +17,8 @@ public:
 	
 	WeaponBuilder();
 	~WeaponBuilder();
-	virtual void SetFPSMesh() = 0;
+	
 	virtual void SetMuzzleOffset() = 0;
-	virtual void SetGunMesh() = 0;
 	virtual void SetFireSound() = 0;
 	virtual void SetLevelOfWeapon() = 0;
 	virtual void SetmaxBulletsInMagazine() = 0;
@@ -32,16 +31,15 @@ public:
 
 	
 	virtual Weapon* GetWeapon();
-	virtual void CreateWeapon(
-		USkeletalMeshComponent* GunMesh);
+	virtual void CreateWeapon();
 };
 
 class  RifleBuilder : public WeaponBuilder 
 {
 public:
-	 void SetFPSMesh();
+	 
 	 void SetMuzzleOffset();
-	 void SetGunMesh() ;
+
 	 void SetFireSound() ;
 	 void SetLevelOfWeapon() ;
 	 void SetmaxBulletsInMagazine() ;
@@ -50,6 +48,5 @@ public:
 	  void SetCountBullet();
 
 
-	 void CreateWeapon(
-		 USkeletalMeshComponent* GunMesh);
+	 void CreateWeapon();
 };

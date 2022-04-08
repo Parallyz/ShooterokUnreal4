@@ -15,17 +15,13 @@ class SHOOTEROK_API Weapon
 public:
 	Weapon();
 	~Weapon();
-	Weapon( USkeletalMeshComponent* GunMesh);
+	
 	
 
 	// Gun muzzle offset from the camera location.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector MuzzleOffset;
 
-
-
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		USkeletalMeshComponent* GunMesh;
 
 	
 
