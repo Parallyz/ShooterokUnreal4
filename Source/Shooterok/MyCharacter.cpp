@@ -21,7 +21,6 @@ AMyCharacter::AMyCharacter()
 	
 
 	
-	//auto CurrentGun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PersonGunMesh"));
 	
 
 	check(FPSMesh != nullptr);
@@ -48,7 +47,7 @@ AMyCharacter::AMyCharacter()
 	FPSMesh->CastShadow = false;
 
 
-	//FirstFPSMeshInit();
+	
 
 	auto weaponBuilder = new RifleBuilder();
 
@@ -70,25 +69,7 @@ AMyCharacter::AMyCharacter()
 
 	
 }
-//void AMyCharacter::FirstFPSMeshInit() {
-//
-//	static ConstructorHelpers::FObjectFinder<USkeletalMesh>MyMesh(TEXT("'/Game/Mesh/FPSArms_rigged.FPSArms_rigged'"));
-//
-//	if (MyMesh.Succeeded())
-//	{
-//		FPSMesh->SetSkeletalMesh(MyMesh.Object);
-//	}
-//
-//	static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/Mesh/FPSArms_D_Mat.FPSArms_D_Mat'"));
-//	if (Material.Succeeded())
-//	{
-//		auto MaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, FPSMesh);
-//		FPSMesh->SetMaterial(0, MaterialInstance);
-//		FPSMesh->SetMaterial(1, MaterialInstance);
-//
-//
-//	}
-//}
+
 
 
 void AMyCharacter::TurnAtRate(float Rate)
@@ -174,16 +155,16 @@ void AMyCharacter::Fire()
 
 	
 		
-		//weapon->Fire();
+		weapon->Fire();
 
 
-		// Transform MuzzleOffset from camera space to world space.
+		
 		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
 
 
-		// Skew the aim to be slightly upwards.
+		
 		FRotator MuzzleRotation = CameraRotation;
-		// MuzzleRotation.Pitch += 2.5f;
+		
 
 		
 		UWorld* World = GetWorld();
@@ -193,12 +174,12 @@ void AMyCharacter::Fire()
 			SpawnParams.Owner = this;
 			SpawnParams.Instigator = GetInstigator();
 
-			// Spawn the projectile at the muzzle.
+			
 			AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
 			if (Projectile)
 			{
 				
-				// Set the projectile's initial trajectory.
+				
 				FVector LaunchDirection = MuzzleRotation.Vector();
 				Projectile->FireInDirection(LaunchDirection);
 			}
@@ -211,7 +192,7 @@ void AMyCharacter::Fire()
 
 		if (FireAnimation != nullptr)
 		{
-			// Get the animation object for the arms mesh
+			
 			UAnimInstance* AnimInstance = FPSMesh->GetAnimInstance();
 			if (AnimInstance != nullptr)
 			{
