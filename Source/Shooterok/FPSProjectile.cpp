@@ -13,6 +13,7 @@ AFPSProjectile::AFPSProjectile()
 	{
 	
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSceneComponent"));
+		resetPosition = FVector(-10.0f, 0.0f, 0.0f);
 	}
 	if (!CollisionComponent)
 	{
@@ -61,15 +62,17 @@ AFPSProjectile::AFPSProjectile()
 		ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
 		ProjectileMeshComponent->SetupAttachment(RootComponent);
 
+		//RootComponent->SetWorldScale3D(FVector(100.0f, 100.0f,100.0f));
 
 	}
-
-	InitialLifeSpan = 3.0f;
+	
+	//InitialLifeSpan = 3.0f;
 }
 
 // Called when the game starts or when spawned
 void AFPSProjectile::BeginPlay()
 {
+	GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AFPSProjectile::Reset, 1.0f, false, 2.0f);
 	Super::BeginPlay();
 	
 }
@@ -77,25 +80,35 @@ void AFPSProjectile::BeginPlay()
 // Called every frame
 void AFPSProjectile::Tick(float DeltaTime)
 {
+	
 	Super::Tick(DeltaTime);
+	
 
+}
+
+void AFPSProjectile::Reset()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("HEllo"));
+	this->SetActorLocation(resetPosition);
 }
 
 void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 {
 
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
+	
 }
 
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
 	if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
 	{
+		
 		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
 		//OtherActor->Destroy();
 	}
 	
-	
-	Destroy();
+	Reset();
+	//Destroy();
 }
 

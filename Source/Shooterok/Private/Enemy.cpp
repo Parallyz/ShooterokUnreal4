@@ -17,10 +17,12 @@ AEnemy::AEnemy()
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AEnemy::Fire, 1.0f, true, 0.7f);
+
 	// DamageCollision->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnHit);
 	
 }
+
 
 // Called every frame
 void AEnemy::Tick(float DeltaTime)
@@ -51,4 +53,14 @@ void AEnemy::DealDamage(float damage)
 		Destroy();
 	}
 }
+
+void AEnemy::Fire()
+{
+
+	if (isSeeAHero) {
+
+	}
+}
+
+
 

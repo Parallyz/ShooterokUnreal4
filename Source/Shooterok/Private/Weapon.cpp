@@ -13,7 +13,11 @@ Weapon::~Weapon()
 
 }
 
-
+Weapon::Weapon(int _damage)
+{
+	this->damageFromBullets = _damage;
+	
+}
 
 bool Weapon::MagazineIsNotEmpty()
 {
@@ -27,6 +31,24 @@ bool Weapon::HaveBullets()
 bool Weapon::IsMagazineFool()
 {
 	return currentBulletsInMagazine == maxBulletsInMagazine;
+}
+Weapon* Weapon::Clone(Weapon* _weapon)
+{
+	Weapon* copy = new Weapon();
+
+	copy->countBullets = _weapon->countBullets;
+	
+	copy->level = _weapon->level;
+
+	copy->maxBulletsInMagazine = _weapon->level;
+
+	copy->damageFromBullets = _weapon->damageFromBullets;
+
+	copy->currentBulletsInMagazine =  _weapon->damageFromBullets;
+
+	return copy;
+		
+
 }
 bool Weapon::Fire()
 {
@@ -56,6 +78,11 @@ bool Weapon::Reload()
 		return true;
 	}
 	return false;
+}
+
+void Weapon::SetDamage(int _damage)
+{
+	this->damageFromBullets = _damage;
 }
 
 

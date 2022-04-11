@@ -9,7 +9,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "FPSProjectile.h"
 #include <WeaponBuilder.h>
+#include <Shooterok/Public/ObjectPooler.h>
 #include "MyCharacter.generated.h"
+//#include <ObjectPooler.h>
+
 
 UCLASS()
 class SHOOTEROK_API AMyCharacter : public ACharacter
@@ -39,6 +42,7 @@ public:
 
 	Weapon* weapon;
 
+	ObjectPooler* pooler;
 
 	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector GunOffset;*/
@@ -100,5 +104,6 @@ public:
 		void ReloadWeapon();
 
 
-
+	UFUNCTION()
+		void InitPooler();
 };

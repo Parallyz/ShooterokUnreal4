@@ -30,6 +30,10 @@ public:
 	UPROPERTY(EditAnywhere)
 		UBoxComponent* DamageCollision;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visibility)
+		bool isSeeAHero;
+
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, 
 			FVector NormalImpulse, const FHitResult& Hit);
@@ -45,4 +49,11 @@ public:
 
 	UFUNCTION()
 		void DealDamage(float damage);
+
+	UFUNCTION()
+		void Fire();
+
+	FTimerHandle MemberTimerHandle;
+
+	
 };

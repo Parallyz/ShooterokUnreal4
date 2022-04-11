@@ -32,13 +32,20 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 		UProjectileMovementComponent* ProjectileMovementComponent;
 
-	void FireInDirection(const FVector& ShootDirection);
-
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 		UStaticMeshComponent* ProjectileMeshComponent;
 
+	UPROPERTY()
+		FVector resetPosition;
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Movement)
 		UMaterialInstanceDynamic* ProjectileMaterialInstance;
+
+	FTimerHandle MemberTimerHandle;
+	UFUNCTION()
+		void Reset();
+
+	void FireInDirection(const FVector& ShootDirection);
 
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);

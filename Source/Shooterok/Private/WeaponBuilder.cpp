@@ -54,7 +54,7 @@ void WeaponBuilder::CreateWeapon()
 
 void RifleBuilder::SetMuzzleOffset()
 {
-	weapon->MuzzleOffset = FVector(120.0f, 18.0f, 36.0f);
+	weapon->MuzzleOffset = FVector(120.0f, 30.0f, 36.0f);
 }
 
 

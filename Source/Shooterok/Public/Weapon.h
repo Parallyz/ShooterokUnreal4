@@ -15,6 +15,7 @@ class SHOOTEROK_API Weapon
 public:
 	Weapon();
 	~Weapon();
+	Weapon(int _damage);
 	
 	
 
@@ -34,6 +35,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int level;
 
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int maxBulletsInMagazine;
 
@@ -50,9 +52,12 @@ public:
 
 	bool Fire();
 	bool Reload();
-
+	void SetDamage(int _damage);
 	bool MagazineIsNotEmpty();
 
 	bool HaveBullets();
 	bool IsMagazineFool();
+
+	Weapon* Clone(Weapon* _weapon);
+
 };

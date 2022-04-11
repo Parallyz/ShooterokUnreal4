@@ -12,62 +12,41 @@ AMyCharacter::AMyCharacter()
 
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
-
+	healthPoint = 100;
 
 	PrimaryActorTick.bCanEverTick = true;
 
 	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
-	
 
-	
-	
 
 	check(FPSMesh != nullptr);
 	check(FPSCameraComponent != nullptr);
-	
 
 
-	
 	FPSCameraComponent->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent()));
-
 	FPSCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f + BaseEyeHeight));
-
 	FPSCameraComponent->bUsePawnControlRotation = true;
-
-	
 
 
 
 	FPSMesh->SetOnlyOwnerSee(true);
-
 	FPSMesh->SetupAttachment(FPSCameraComponent);
-
 	FPSMesh->bCastDynamicShadow = false;
 	FPSMesh->CastShadow = false;
 
-
-	
-
 	auto weaponBuilder = new RifleBuilder();
-
 	weaponBuilder->CreateWeapon();
-	
-
 	weapon = weaponBuilder->GetWeapon();
 
 
 	FPSMesh->SetRelativeLocation(FVector(6.8f, 8.75f, -17.47f));
 	FPSMesh->SetRelativeRotation(FRotator(-0.43f, 4.98f, -10.01f));
 
-	
-
 	GetMesh()->SetOwnerNoSee(true);
 
+	pooler = new ObjectPooler();
 
-	
-
-	
 }
 
 
@@ -85,13 +64,9 @@ void AMyCharacter::LookUpAtRate(float Rate)
 // Called when the game starts or when spawned
 void AMyCharacter::BeginPlay()
 {
+
 	Super::BeginPlay();
-
-	
-
-	healthPoint = 100;
-	
-	
+	InitPooler();
 }
 
 // Called every frame
@@ -144,47 +119,58 @@ void AMyCharacter::StopJump()
 void AMyCharacter::Fire()
 {
 
-	if (ProjectileClass )
+	if (ProjectileClass)
 	{
-		
-		
-		FVector CameraLocation;
+		weapon->Fire();
+
+
+		/*FVector CameraLocation;
 		FRotator CameraRotation;
 
 		GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
-	
-		
-		weapon->Fire();
 
 
-		
+		FRotator MuzzleRotation = CameraRotation;*/
+		FVector CameraLocation;
+		FRotator CameraRotation;
 		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
 
+		GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
-		
 		FRotator MuzzleRotation = CameraRotation;
-		
 
-		
-		UWorld* World = GetWorld();
-		if (World)
+		if (pooler->IfInit())
 		{
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = this;
-			SpawnParams.Instigator = GetInstigator();
-
-			
-			AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
-			if (Projectile)
+			auto porjectile = pooler->GetProjectileToShoot();
+			if (porjectile != NULL)
 			{
-				
-				
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (TEXT("Hello %s"), porjectile->GetActorLocation().ToString()));
+				porjectile->SetActorLocation(MuzzleLocation);
+			//	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green,(TEXT("Hello %s"), porjectile->GetActorLocation().ToString()));
+
 				FVector LaunchDirection = MuzzleRotation.Vector();
-				Projectile->FireInDirection(LaunchDirection);
+				porjectile->FireInDirection(LaunchDirection);
 			}
+
 		}
-		
+
+		//UWorld* World = GetWorld();
+		//if (World)
+		//{
+		//	FActorSpawnParameters SpawnParams;
+		//	SpawnParams.Owner = this;
+		//	SpawnParams.Instigator = GetInstigator();
+
+
+		//	
+
+		//}
+
+
+
+
+
 		if (weapon->FireSound != nullptr)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->FireSound, GetActorLocation());
@@ -192,7 +178,7 @@ void AMyCharacter::Fire()
 
 		if (FireAnimation != nullptr)
 		{
-			
+
 			UAnimInstance* AnimInstance = FPSMesh->GetAnimInstance();
 			if (AnimInstance != nullptr)
 			{
@@ -200,16 +186,46 @@ void AMyCharacter::Fire()
 			}
 		}
 	}
-	
+
 }
 
 
+void AMyCharacter::InitPooler()
+{
+	FVector CameraLocation;
+	FRotator CameraRotation;
 
+	GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+
+	//FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
+
+	FVector MuzzleLocation = FVector(-10.0f, 0.0f, 0.0f);
+
+	FRotator MuzzleRotation = CameraRotation;
+
+
+	UWorld* World = GetWorld();
+	if (World)
+	{
+
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = GetInstigator();
+
+
+		pooler->OnEnable(5, ProjectileClass, *World, MuzzleLocation, MuzzleRotation, SpawnParams);
+
+
+	}
+}
 
 
 void AMyCharacter::ReloadWeapon()
 {
 	weapon->Reload();
 }
+
+
 
 
