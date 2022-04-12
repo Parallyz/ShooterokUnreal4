@@ -2,6 +2,8 @@
 
 
 #include "MyCharacter.h"
+#include <thread>
+
 
 
 
@@ -146,14 +148,16 @@ void AMyCharacter::Fire()
 			if (currentProjectile != NULL)
 			{
 				currentProjectile->SetActorLocation(MuzzleLocation);
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (TEXT("Hello %s"), currentProjectile->GetActorLocation().ToString()));
-				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 1.0f);
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (TEXT("Hello %s"), currentProjectile->ProjectileMovementComponent->Velocity().ToString()));
+				
+				FVector LaunchDirection = MuzzleRotation.Vector();
+
+				currentProjectile->FireInDirection(LaunchDirection);
+				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);
 
 				//	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green,(TEXT("Hello %s"), porjectile->GetActorLocation().ToString()));
 
-					FVector LaunchDirection = MuzzleRotation.Vector();
-
-					currentProjectile->FireInDirection(LaunchDirection);
+					
 			}
 
 		}

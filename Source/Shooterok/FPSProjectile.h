@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include <Async/Async.h>
+#include <HAL/ThreadingBase.h>
 #include "FPSProjectile.generated.h"
 
 UCLASS()

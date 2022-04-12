@@ -39,6 +39,7 @@ void ObjectPooler::OnEnable(int countPool, TSubclassOf<class AFPSProjectile> Pro
 AFPSProjectile* ObjectPooler::GetProjectileToShoot()
 {
 
+
 	for (AFPSProjectile* var : *pooledObjects)
 	{
 		if (!var->isShooting)
@@ -52,7 +53,7 @@ AFPSProjectile* ObjectPooler::GetProjectileToShoot()
 	for (AFPSProjectile* var : *pooledObjects)
 	{
 		var->Reset();
-		
+
 	}
 	if (pooledObjects != NULL)
 	{
@@ -61,6 +62,7 @@ AFPSProjectile* ObjectPooler::GetProjectileToShoot()
 		return firstProj;
 	}
 	return NULL;
+
 }
 void ObjectPooler::push(AFPSProjectile* proj)
 {
