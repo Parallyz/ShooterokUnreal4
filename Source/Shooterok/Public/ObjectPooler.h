@@ -26,6 +26,9 @@ public:
 	AFPSProjectile* GetProjectileToShoot();
 
 	void push(AFPSProjectile* proj);
+
+	void reset();
+
 };
 
 

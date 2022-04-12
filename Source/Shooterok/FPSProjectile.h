@@ -38,6 +38,9 @@ public:
 	UPROPERTY()
 		FVector resetPosition;
 
+	UPROPERTY()
+		bool isShooting;
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Movement)
 		UMaterialInstanceDynamic* ProjectileMaterialInstance;
 

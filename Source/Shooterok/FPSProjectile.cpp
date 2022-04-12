@@ -14,6 +14,7 @@ AFPSProjectile::AFPSProjectile()
 	
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSceneComponent"));
 		resetPosition = FVector(-10.0f, 0.0f, 0.0f);
+		isShooting = false;
 	}
 	if (!CollisionComponent)
 	{
@@ -62,7 +63,7 @@ AFPSProjectile::AFPSProjectile()
 		ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
 		ProjectileMeshComponent->SetupAttachment(RootComponent);
 
-		//RootComponent->SetWorldScale3D(FVector(100.0f, 100.0f,100.0f));
+		//RootComponent->SetWorldScale3D(FVector(5.0f, 5.0f,5.0f));
 
 	}
 	
@@ -72,7 +73,6 @@ AFPSProjectile::AFPSProjectile()
 // Called when the game starts or when spawned
 void AFPSProjectile::BeginPlay()
 {
-	GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AFPSProjectile::Reset, 1.0f, false, 2.0f);
 	Super::BeginPlay();
 	
 }
@@ -88,14 +88,19 @@ void AFPSProjectile::Tick(float DeltaTime)
 
 void AFPSProjectile::Reset()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("HEllo"));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Reset"));
+	ProjectileMovementComponent->Velocity = FVector(0.0f, 0.0f, 0.0f);
+	isShooting = false;
 	this->SetActorLocation(resetPosition);
 }
 
 void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 {
 
+	//ProjectileMovementComponent->InitialSpeed = 5000.0f;
+
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
+	//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, (TEXT("Hello %s"), FString::SanitizeFloat(ProjectileMovementComponent->InitialSpeed)));
 	
 }
 
@@ -104,11 +109,12 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor
 	if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
 	{
 		
-		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
+		//OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
 		//OtherActor->Destroy();
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("RESET"));
+		//Reset();
 	}
 	
-	Reset();
 	//Destroy();
 }
 

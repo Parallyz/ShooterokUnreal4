@@ -32,6 +32,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		UCameraComponent* FPSCameraComponent;
 
+	FTimerHandle MemberTimerHandle;
+
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
 	// Gun muzzle offset from the camera location.
@@ -59,12 +62,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		UAnimMontage* FireAnimation;
 
-
+	AFPSProjectile* currentProjectile;
 
 	
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		USoundBase* FireSound;*/
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -80,7 +82,11 @@ public:
 
 	void TurnAtRate(float Rate);
 
+	void ResetProjectile();
+
 	
+	
+
 	void LookUpAtRate(float Rate);
 	UFUNCTION()
 		void MoveForward(float value);

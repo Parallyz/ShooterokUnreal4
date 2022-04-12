@@ -127,30 +127,33 @@ void AMyCharacter::Fire()
 		/*FVector CameraLocation;
 		FRotator CameraRotation;
 
-		GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
 
 
 		FRotator MuzzleRotation = CameraRotation;*/
 		FVector CameraLocation;
 		FRotator CameraRotation;
-		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
-
 		GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+		
+		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
 
 		FRotator MuzzleRotation = CameraRotation;
 
 		if (pooler->IfInit())
 		{
-			auto porjectile = pooler->GetProjectileToShoot();
-			if (porjectile != NULL)
+				currentProjectile = pooler->GetProjectileToShoot();
+			if (currentProjectile != NULL)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (TEXT("Hello %s"), porjectile->GetActorLocation().ToString()));
-				porjectile->SetActorLocation(MuzzleLocation);
-			//	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green,(TEXT("Hello %s"), porjectile->GetActorLocation().ToString()));
+				currentProjectile->SetActorLocation(MuzzleLocation);
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (TEXT("Hello %s"), currentProjectile->GetActorLocation().ToString()));
+				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 1.0f);
 
-				FVector LaunchDirection = MuzzleRotation.Vector();
-				porjectile->FireInDirection(LaunchDirection);
+				//	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green,(TEXT("Hello %s"), porjectile->GetActorLocation().ToString()));
+
+					FVector LaunchDirection = MuzzleRotation.Vector();
+
+					currentProjectile->FireInDirection(LaunchDirection);
 			}
 
 		}
@@ -188,6 +191,13 @@ void AMyCharacter::Fire()
 	}
 
 }
+
+void AMyCharacter::ResetProjectile()
+{
+	if (currentProjectile != NULL)
+		currentProjectile->Reset();
+}
+
 
 
 void AMyCharacter::InitPooler()
