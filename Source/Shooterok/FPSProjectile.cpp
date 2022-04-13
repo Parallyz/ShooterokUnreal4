@@ -90,7 +90,7 @@ void AFPSProjectile::Reset()
 {
 	//Async(EAsyncExecution::Thread, [&] {
 
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Reset"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Reset"));
 		//ProjectileMovementComponent->Velocity = FVector(0.0f, 0.0f, 0.0f);
 		//ProjectileMovementComponent->InitialSpeed = 0;
 		isShooting = false;
@@ -105,7 +105,7 @@ void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 	//ProjectileMovementComponent->InitialSpeed = 5000.0f;
 
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, (TEXT("Velocity %s"), ShootDirection.ToString()));//FString::SanitizeFloat(ProjectileMovementComponent->InitialSpeed)));
+	//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, (TEXT("Velocity %s"), ShootDirection.ToString()));//FString::SanitizeFloat(ProjectileMovementComponent->InitialSpeed)));
 
 }
 
@@ -117,7 +117,7 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor
 		//OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
 		//OtherActor->Destroy();
 		//Reset();
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("HIT"));
+	//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("HIT"));
 	}
 
 	//Destroy();

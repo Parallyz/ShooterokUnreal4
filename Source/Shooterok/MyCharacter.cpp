@@ -2,7 +2,7 @@
 
 
 #include "MyCharacter.h"
-#include <thread>
+
 
 
 
@@ -126,13 +126,7 @@ void AMyCharacter::Fire()
 		weapon->Fire();
 
 
-		/*FVector CameraLocation;
-		FRotator CameraRotation;
-
-
-
-
-		FRotator MuzzleRotation = CameraRotation;*/
+		
 		FVector CameraLocation;
 		FRotator CameraRotation;
 		GetActorEyesViewPoint(CameraLocation, CameraRotation);
@@ -148,7 +142,7 @@ void AMyCharacter::Fire()
 			if (currentProjectile != NULL)
 			{
 				currentProjectile->SetActorLocation(MuzzleLocation);
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (TEXT("Hello %s"), currentProjectile->ProjectileMovementComponent->Velocity().ToString()));
+				//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (TEXT("Hello %s"), currentProjectile->ProjectileMovementComponent->Velocity().ToString()));
 				
 				FVector LaunchDirection = MuzzleRotation.Vector();
 

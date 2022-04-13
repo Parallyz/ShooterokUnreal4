@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Components/BoxComponent.h"
+#include <Shooterok/Public/ObjectPooler.h>
+#include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include "Enemy.generated.h"
 
 UCLASS()
@@ -31,8 +33,19 @@ public:
 		UBoxComponent* DamageCollision;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visibility)
-		bool isSeeAHero;
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class AFPSProjectile> ProjectileClass;
+
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		UAnimMontage* FireAnimation;
+
+	AFPSProjectile* currentProjectile;
+
+	ObjectPooler* pooler;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundBase* FireSound;
 
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, 
@@ -50,10 +63,13 @@ public:
 	UFUNCTION()
 		void DealDamage(float damage);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		void Fire();
 
 	FTimerHandle MemberTimerHandle;
 
+	void ResetProjectile();
+
+	void InitPooler();
 	
 };
