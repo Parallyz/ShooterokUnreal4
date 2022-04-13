@@ -17,8 +17,8 @@ AEnemy::AEnemy()
 
 	pooler = new ObjectPooler();
 
-
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/MilitaryWeapDark/Sound/Rifle/Wavs/RifleB_Fire_ST01.RifleB_Fire_ST01'"));
+	
+	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/MilitaryWeapDark/Sound/Rifle/Wavs/RifleB_Fire01.RifleB_Fire01'"));
 
 	if (Sound.Succeeded())
 	{

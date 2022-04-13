@@ -121,56 +121,43 @@ void AMyCharacter::StopJump()
 void AMyCharacter::Fire()
 {
 
-	if (ProjectileClass)
+	if (ProjectileClass && weapon->Fire())
 	{
-		weapon->Fire();
 
-
-		
 		FVector CameraLocation;
 		FRotator CameraRotation;
 		GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
-		
+
 		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
 
 		FRotator MuzzleRotation = CameraRotation;
 
 		if (pooler->IfInit())
 		{
-				currentProjectile = pooler->GetProjectileToShoot();
+			currentProjectile = pooler->GetProjectileToShoot();
 			if (currentProjectile != NULL)
 			{
 				currentProjectile->SetActorLocation(MuzzleLocation);
-				//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (TEXT("Hello %s"), currentProjectile->ProjectileMovementComponent->Velocity().ToString()));
-				
+
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, TEXT("In magazine"));
+
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (FString::FromInt(weapon->currentBulletsInMagazine)));
+
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Count"));
+
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, (FString::FromInt(weapon->countBullets)));
+
+
+
 				FVector LaunchDirection = MuzzleRotation.Vector();
 
 				currentProjectile->FireInDirection(LaunchDirection);
-				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);
+				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);		
 
-				//	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green,(TEXT("Hello %s"), porjectile->GetActorLocation().ToString()));
-
-					
 			}
 
 		}
-
-		//UWorld* World = GetWorld();
-		//if (World)
-		//{
-		//	FActorSpawnParameters SpawnParams;
-		//	SpawnParams.Owner = this;
-		//	SpawnParams.Instigator = GetInstigator();
-
-
-		//	
-
-		//}
-
-
-
-
 
 		if (weapon->FireSound != nullptr)
 		{
@@ -185,6 +172,13 @@ void AMyCharacter::Fire()
 			{
 				AnimInstance->Montage_Play(FireAnimation, 1.f);
 			}
+		}
+	}
+
+	else if (weapon->currentBulletsInMagazine == 0) {
+		if (weapon->EmptyMagazineSound != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, weapon->EmptyMagazineSound, GetActorLocation());
 		}
 	}
 
@@ -231,7 +225,14 @@ void AMyCharacter::InitPooler()
 
 void AMyCharacter::ReloadWeapon()
 {
-	weapon->Reload();
+	if (weapon->Reload())
+	{	
+		if (weapon->ReloadSound != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, weapon->ReloadSound, GetActorLocation());
+		}
+	}
+	
 }
 
 

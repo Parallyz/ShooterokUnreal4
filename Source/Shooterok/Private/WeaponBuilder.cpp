@@ -22,6 +22,12 @@ void WeaponBuilder::SetMuzzleOffset() {}
 
 void WeaponBuilder::SetFireSound() {}
 
+void WeaponBuilder::SetMagazineEmptySound()
+{
+}
+
+
+
 void WeaponBuilder::SetGunOffset() {}
 
 void WeaponBuilder::SetCountBullet()
@@ -94,17 +100,45 @@ void RifleBuilder::SetCountBullet()
 	weapon->countBullets = weapon->maxBulletsInMagazine * 4;
 }
 
+void RifleBuilder::SetMagazineEmptySound()
+{
+	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/MilitaryWeapDark/Sound/Rifle/Wavs/Rifle_AmmoPickup.Rifle_AmmoPickup'"));
+
+	if (Sound.Succeeded())
+	{
+		weapon->EmptyMagazineSound = Sound.Object;
+	}
+}
+
+void RifleBuilder::SetReloadSound()
+{
+	
+	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("/Game/MilitaryWeapDark/Sound/Rifle/Wavs/Rifle_Reload02.Rifle_Reload02"));
+
+	if (Sound.Succeeded())
+	{
+		weapon->ReloadSound = Sound.Object;
+	}
+}
+
 
 
 void RifleBuilder::CreateWeapon()
 {
 	WeaponBuilder::CreateWeapon();
+	
 	RifleBuilder::SetmaxBulletsInMagazine();
 	RifleBuilder::SetdamageFromBullets();
 	RifleBuilder::SetLevelOfWeapon();
 	RifleBuilder::SetFireSound();
 	RifleBuilder::SetMuzzleOffset();
 	RifleBuilder::SetCountBullet();
+	RifleBuilder::SetMagazineEmptySound();
+	RifleBuilder::SetReloadSound();
+
+
+	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
+
 }
 
 #pragma endregion

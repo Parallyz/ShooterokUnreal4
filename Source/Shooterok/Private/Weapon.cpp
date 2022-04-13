@@ -55,6 +55,7 @@ bool Weapon::Fire()
 	if (MagazineIsNotEmpty())
 	{
 		currentBulletsInMagazine--;
+		
 		return true;
 	}
 	return false;
@@ -65,16 +66,17 @@ bool Weapon::Reload()
 	if (HaveBullets() && !IsMagazineFool())
 	{
 
-		if (countBullets < maxBulletsInMagazine)
+		if (countBullets <= maxBulletsInMagazine)
 		{
 			currentBulletsInMagazine = countBullets;
 			countBullets = 0;
 		}
-		else {
-
-			countBullets -= maxBulletsInMagazine;
+		else if (countBullets > maxBulletsInMagazine)
+		{
+			countBullets -= maxBulletsInMagazine - currentBulletsInMagazine;
 			currentBulletsInMagazine = maxBulletsInMagazine;
 		}
+		
 		return true;
 	}
 	return false;

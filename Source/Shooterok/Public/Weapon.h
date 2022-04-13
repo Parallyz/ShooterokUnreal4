@@ -30,6 +30,12 @@ public:
 		USoundBase* FireSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundBase* EmptyMagazineSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundBase* ReloadSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector GunOffset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
