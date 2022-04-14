@@ -2,6 +2,8 @@
 
 
 #include "FPSProjectile.h"
+#include <Shooterok/MyCharacter.h>
+#include <Shooterok/Public/Enemy.h>
 
 // Sets default values
 AFPSProjectile::AFPSProjectile()
@@ -22,8 +24,8 @@ AFPSProjectile::AFPSProjectile()
 		// Use a sphere as a simple collision representation.
 		CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 		// Set the sphere's collision radius.
-		CollisionComponent->InitSphereRadius(0.09f);
-
+		CollisionComponent->InitSphereRadius(0.2f);
+		
 		CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 
 		// Event called when component hits something.
@@ -40,7 +42,7 @@ AFPSProjectile::AFPSProjectile()
 		ProjectileMovementComponent->MaxSpeed = 5000.0f;
 		ProjectileMovementComponent->bRotationFollowsVelocity = true;
 		ProjectileMovementComponent->bShouldBounce = true;
-		
+	
 		ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
 	}
 
@@ -62,7 +64,7 @@ AFPSProjectile::AFPSProjectile()
 		ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
 		ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
 		ProjectileMeshComponent->SetupAttachment(RootComponent);
-
+		
 		//RootComponent->SetWorldScale3D(FVector(5.0f, 5.0f,5.0f));
 
 	}
@@ -91,10 +93,12 @@ void AFPSProjectile::Reset()
 	//Async(EAsyncExecution::Thread, [&] {
 
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Reset"));
-		//ProjectileMovementComponent->Velocity = FVector(0.0f, 0.0f, 0.0f);
+		ProjectileMovementComponent->Velocity = FVector(0.0f, 0.0f, 0.0f);
 		//ProjectileMovementComponent->InitialSpeed = 0;
-		isShooting = false;
-		this->SetActorLocation(resetPosition);
+	isShooting = false;
+	SetActorHiddenInGame(true);
+	resetPosition = FVector(resetPosition.X + 10 * Id, resetPosition.Y, resetPosition.Z);
+	this->SetActorLocation(resetPosition);
 	//	});
 
 }
@@ -102,7 +106,7 @@ void AFPSProjectile::Reset()
 void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 {
 
-	//ProjectileMovementComponent->InitialSpeed = 5000.0f;
+	//rojectileMovementComponent->InitialSpeed = 5000.0f;
 
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
 	//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, (TEXT("Velocity %s"), ShootDirection.ToString()));//FString::SanitizeFloat(ProjectileMovementComponent->InitialSpeed)));
@@ -111,15 +115,63 @@ void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (OtherActor != this)// && OtherComponent->IsSimulatingPhysics())
+
+	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComponent != NULL) && 
+		HitComponent != OtherComponent && OtherComponent->GetName()!="ProjectileMeshComponent")
 	{
+		if (OtherActor->IsA(AEnemy::StaticClass())) {
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Green, FString::Printf(TEXT("I Hit: %s"), *OtherActor->GetName()));
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Red, FString::Printf(TEXT("I Hit: %s"), *HitComponent->GetName()));
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Blue, FString::Printf(TEXT("I Hit: %s"), *OtherComponent->GetName()));
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Black, FString::Printf(TEXT("I Hit: %s"), *Hit.Actor->GetName()));
 
-		//OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
-		//OtherActor->Destroy();
-		//Reset();
-	//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("HIT"));
+		}
+	
+		//HitComponent->get
+		//AFPSProjectile* proj = Cast<AFPSProjectile>(HitComponent);
+		//if (proj->isShooting)
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Green, FString::Printf(TEXT("I Hit: %s"), *OtherActor->GetName()));
+
+		{
+			
+		}
+
+		//if (enemy != NULL)
+		//{
+		//	enemy->DealDamage(25.0f);
+		//	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("I Hit: %s"), enemy->healthPoint));
+
+		//}
+		//HitComponent->
+		/*if (OtherComponent->GetName() != "DamageCollision") {
+
+			try {
+
+				AMyCharacter* character = Cast<AMyCharacter>(OtherActor);
+
+				if (character != NULL)
+				{
+					character->DealDamage(10.0f);
+					if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, FString::Printf(TEXT("I Hit: %s"), character->Health));
+
+				}
+			}
+			catch ()
+			{
+				if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, FString::Printf(TEXT("I Hit: %s"), ex.));
+			}*/
+
+			}
+
+	//else {
+
+		
+
+		//	character->
+
+
+
 	}
-
 	//Destroy();
-}
+
 

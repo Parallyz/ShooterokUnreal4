@@ -14,12 +14,13 @@ AMyCharacter::AMyCharacter()
 
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
-	healthPoint = 100;
+
 
 	PrimaryActorTick.bCanEverTick = true;
 
 	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
+	//RootComponent=FPSCameraComponent;
 
 
 	check(FPSMesh != nullptr);
@@ -69,6 +70,15 @@ void AMyCharacter::BeginPlay()
 
 	Super::BeginPlay();
 	InitPooler();
+	FullHealth = 30.0f;
+	Health = FullHealth;
+	HealthPrecentage = 1.0f;
+	
+	FullStamina = 100.0f;
+	Stamina = FullStamina;
+	Stamina = 1.0f;
+	
+	bCanUseStamina = true;
 }
 
 // Called every frame
@@ -78,7 +88,7 @@ void AMyCharacter::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
+
 void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -140,17 +150,11 @@ void AMyCharacter::Fire()
 			{
 				currentProjectile->SetActorLocation(MuzzleLocation);
 
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, TEXT("In magazine"));
-
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, (FString::FromInt(weapon->currentBulletsInMagazine)));
-
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Count"));
-
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, (FString::FromInt(weapon->countBullets)));
-
-
+				
 
 				FVector LaunchDirection = MuzzleRotation.Vector();
+
+				currentProjectile->SetActorHiddenInGame(false);
 
 				currentProjectile->FireInDirection(LaunchDirection);
 				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);		
@@ -202,10 +206,7 @@ void AMyCharacter::InitPooler()
 
 	//FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
 
-	FVector MuzzleLocation = FVector(-10.0f, 0.0f, 0.0f);
-
-	FRotator MuzzleRotation = CameraRotation;
-
+	
 
 	UWorld* World = GetWorld();
 	if (World)
@@ -216,12 +217,74 @@ void AMyCharacter::InitPooler()
 		SpawnParams.Instigator = GetInstigator();
 
 
-		pooler->OnEnable(5, ProjectileClass, *World, MuzzleLocation, MuzzleRotation, SpawnParams);
+		pooler->OnEnable(5, ProjectileClass, *World, CameraLocation, CameraRotation, SpawnParams);
 
 
 	}
 }
 
+void AMyCharacter::PickUpAmmo()
+{
+	weapon->countBullets += weapon->maxBulletsInMagazine;
+}
+
+
+float AMyCharacter::PickUpHp()
+{
+	FullHealth += 25;
+	if (FullHealth > 100)
+		FullHealth = 100;
+	return FullHealth;
+}
+
+FText AMyCharacter::GetStamianinText()
+{
+	return FText();
+}
+
+void AMyCharacter::DamageTimer()
+{
+}
+
+void AMyCharacter::SetDamageState()
+{
+}
+
+void AMyCharacter::SetStaminaValue()
+{
+}
+
+void AMyCharacter::SetStaminaState()
+{
+}
+
+void AMyCharacter::UpdateStamina()
+{
+
+}
+
+void AMyCharacter::DealDamage(float Damage)
+{
+	Health -= Damage;
+	if (Health < 0)
+		Health = 0;
+}
+void AMyCharacter::SetStaminaChange(float StaminaValue)
+{
+}
+float AMyCharacter::GetStamina()
+{
+	return NULL;
+}
+
+
+void AMyCharacter::RecievePointDamage(float Damage, const UDamageType* DamageType, FVector HitLocation, FVector HitNormal, UPrimitiveComponent* HitComponent, FName BoneName, FVector ShootFromDirection, AController* InstigateBy, AActor* DamageCauser, const FHitResult& HitInfo)
+{
+}
+
+void AMyCharacter::UpdateHealth(float HealthChange)
+{
+}
 
 void AMyCharacter::ReloadWeapon()
 {

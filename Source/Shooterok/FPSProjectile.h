@@ -43,6 +43,11 @@ public:
 	UPROPERTY()
 		bool isShooting;
 
+
+
+	UPROPERTY()
+		int  Id;
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Movement)
 		UMaterialInstanceDynamic* ProjectileMaterialInstance;
 

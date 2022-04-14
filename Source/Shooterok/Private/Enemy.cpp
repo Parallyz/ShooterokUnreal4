@@ -12,9 +12,9 @@ AEnemy::AEnemy()
 
 	healthPoint = 100;
 
-	DamageCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("DamageCollision"));
+	//DamageCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("DamageCollision"));
 
-
+	//DamageCollision->OnComponentBeginOverlap.Add(&AEnemy::OnHit)//.AddDynamic(this, );
 	pooler = new ObjectPooler();
 
 	
@@ -34,7 +34,7 @@ void AEnemy::BeginPlay()
 
 	//GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AEnemy::Fire, 1.0f, true, 0.7f);
 
-	// DamageCollision->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnHit);
+	// 
 
 }
 
@@ -137,20 +137,14 @@ void AEnemy::InitPooler()
 	if (ProjectileClass)
 	{
 
-		FVector CameraLocation;
-		FRotator CameraRotation;
+		FVector MuzzleLocation;
+		FRotator MuzzleRotation;
 
-		GetActorEyesViewPoint(CameraLocation, CameraRotation);
-
-
-
-
-		FVector MuzzleLocation = FVector(-10.0f, 0.0f, 0.0f);
-
-		FRotator MuzzleRotation = CameraRotation;
-
+		GetActorEyesViewPoint(MuzzleLocation, MuzzleRotation);
 
 		UWorld* World = GetWorld();
+
+		MuzzleLocation = FVector(MuzzleLocation.X + 100.f, MuzzleLocation.Y, MuzzleLocation.Z);
 		if (World)
 		{
 
@@ -159,7 +153,7 @@ void AEnemy::InitPooler()
 			SpawnParams.Instigator = GetInstigator();
 
 
-			pooler->OnEnable(5, ProjectileClass, *World, MuzzleLocation, MuzzleRotation, SpawnParams);
+			pooler->OnEnable(1	, ProjectileClass, *World, MuzzleLocation, MuzzleRotation, SpawnParams);
 		}
 	}
 }

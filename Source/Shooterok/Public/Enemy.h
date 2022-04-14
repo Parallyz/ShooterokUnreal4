@@ -29,8 +29,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere)
-		UBoxComponent* DamageCollision;
+	//UPROPERTY(EditAnywhere)
+	//	UBoxComponent* DamageCollision;
 
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
@@ -60,7 +60,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int damageFromBullets;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		void DealDamage(float damage);
 
 	UFUNCTION(BlueprintCallable)

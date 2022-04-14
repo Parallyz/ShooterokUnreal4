@@ -10,8 +10,10 @@
 #include "FPSProjectile.h"
 #include <WeaponBuilder.h>
 #include <Shooterok/Public/ObjectPooler.h>
+
+#include <Runtime/Engine/Classes/Components/TimelineComponent.h>
 #include "MyCharacter.generated.h"
-//#include <ObjectPooler.h>
+
 
 
 UCLASS()
@@ -32,14 +34,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		UCameraComponent* FPSCameraComponent;
 
-	FTimerHandle MemberTimerHandle;
-
-
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
-	// Gun muzzle offset from the camera location.
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	//	FVector MuzzleOffset;
+	
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
 
@@ -47,11 +44,40 @@ public:
 
 	ObjectPooler* pooler;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		FVector GunOffset;*/
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int healthPoint;
+		float HealthPrecentage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Health)
+		float FullHealth;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Health)
+		float Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stamina)
+		float FullStamina;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stamina)
+		float StaminaPercentage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stamina)
+		float Stamina;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Health)
+		FTimerHandle MemberTimerHandle;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
+		FTimerHandle StaminaTimerHandle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Health)
+		bool redFlash;
+
+
+
+	UPROPERTY(EditAnywhere, Category = Health)
+		FTimeline  Timeline;
+
+
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int expirience;
@@ -64,7 +90,8 @@ public:
 
 	AFPSProjectile* currentProjectile;
 
-	
+	bool bCanUseStamina;
+	float TimelineValue;
 
 
 
@@ -105,9 +132,48 @@ public:
 	UFUNCTION()
 		void Fire();
 
+	UFUNCTION(BlueprintCallable)
+		void PickUpAmmo();
+
+	UFUNCTION(BlueprintCallable,Category=Health)
+		float PickUpHp();
+
+	UFUNCTION(BlueprintPure, Category = Stamina)
+		float GetStamina();
+
+	UFUNCTION(BlueprintPure, Category = Stamina)
+		FText GetStamianinText();
 
 	UFUNCTION()
 		void ReloadWeapon();
+
+	UFUNCTION()
+		void DamageTimer();
+
+	UFUNCTION()
+		void SetDamageState();
+
+	UFUNCTION()
+		void SetStaminaValue();
+
+	UFUNCTION()
+		void SetStaminaState();
+
+	UFUNCTION()
+		void SetStaminaChange(float StaminaValue);
+
+	UFUNCTION()
+		void UpdateStamina();
+
+	UFUNCTION()
+		void DealDamage(float Damage);
+
+	UFUNCTION()
+		void RecievePointDamage(float Damage,const UDamageType* DamageType,FVector HitLocation,
+			FVector HitNormal,UPrimitiveComponent *HitComponent,FName BoneName,FVector ShootFromDirection,
+			AController * InstigateBy,AActor* DamageCauser,const FHitResult& HitInfo);
+	UFUNCTION(BlueprintCallable, Category = Health)
+		void UpdateHealth(float HealthChange);
 
 
 	UFUNCTION()
