@@ -70,8 +70,8 @@ void AMyCharacter::BeginPlay()
 
 	Super::BeginPlay();
 	InitPooler();
-	FullHealth = 30.0f;
-	Health = FullHealth;
+	FullHealth = 100.0f;
+	Health = 30;
 	HealthPrecentage = 1.0f;
 	
 	FullStamina = 100.0f;
@@ -231,10 +231,10 @@ void AMyCharacter::PickUpAmmo()
 
 float AMyCharacter::PickUpHp()
 {
-	FullHealth += 25;
-	if (FullHealth > 100)
-		FullHealth = 100;
-	return FullHealth;
+	Health += 25;
+	if (Health > 100)
+		Health = 100;
+	return Health;
 }
 
 FText AMyCharacter::GetStamianinText()
