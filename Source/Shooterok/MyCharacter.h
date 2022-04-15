@@ -159,6 +159,12 @@ public:
 	UFUNCTION()
 		void SetStaminaState();
 
+	UFUNCTION(BlueprintCallable)
+		int GetBulletsInMagazine();
+
+	UFUNCTION(BlueprintCallable)
+		int GetCountBullets();
+
 	UFUNCTION()
 		void SetStaminaChange(float StaminaValue);
 

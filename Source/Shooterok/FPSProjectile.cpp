@@ -116,62 +116,9 @@ void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
 
-	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComponent != NULL) && 
-		HitComponent != OtherComponent && OtherComponent->GetName()!="ProjectileMeshComponent")
-	{
-		if (OtherActor->IsA(AEnemy::StaticClass())) {
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Green, FString::Printf(TEXT("I Hit: %s"), *OtherActor->GetName()));
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Red, FString::Printf(TEXT("I Hit: %s"), *HitComponent->GetName()));
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Blue, FString::Printf(TEXT("I Hit: %s"), *OtherComponent->GetName()));
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Black, FString::Printf(TEXT("I Hit: %s"), *Hit.Actor->GetName()));
-
-		}
 	
-		//HitComponent->get
-		//AFPSProjectile* proj = Cast<AFPSProjectile>(HitComponent);
-		//if (proj->isShooting)
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Green, FString::Printf(TEXT("I Hit: %s"), *OtherActor->GetName()));
-
-		{
-			
-		}
-
-		//if (enemy != NULL)
-		//{
-		//	enemy->DealDamage(25.0f);
-		//	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("I Hit: %s"), enemy->healthPoint));
-
-		//}
-		//HitComponent->
-		/*if (OtherComponent->GetName() != "DamageCollision") {
-
-			try {
-
-				AMyCharacter* character = Cast<AMyCharacter>(OtherActor);
-
-				if (character != NULL)
-				{
-					character->DealDamage(10.0f);
-					if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, FString::Printf(TEXT("I Hit: %s"), character->Health));
-
-				}
-			}
-			catch ()
-			{
-				if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, FString::Printf(TEXT("I Hit: %s"), ex.));
-			}*/
-
-			}
-
-	//else {
-
-		
-
-		//	character->
-
-
 
 	}
-	//Destroy();
+
 
 

@@ -154,7 +154,7 @@ void AMyCharacter::Fire()
 
 				FVector LaunchDirection = MuzzleRotation.Vector();
 
-				currentProjectile->SetActorHiddenInGame(false);
+				currentProjectile->SetActorHiddenInGame(true);
 
 				currentProjectile->FireInDirection(LaunchDirection);
 				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);		
@@ -282,6 +282,21 @@ void AMyCharacter::RecievePointDamage(float Damage, const UDamageType* DamageTyp
 {
 }
 
+int AMyCharacter::GetBulletsInMagazine()
+{
+	if (weapon != NULL)
+	{
+		return weapon->currentBulletsInMagazine;
+	}
+	return NULL;
+}
+int AMyCharacter::GetCountBullets() {
+	if (weapon != NULL)
+	{
+		return weapon->countBullets;
+	}
+	return NULL;
+}
 void AMyCharacter::UpdateHealth(float HealthChange)
 {
 }
