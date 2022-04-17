@@ -72,13 +72,14 @@ void AMyCharacter::BeginPlay()
 	InitPooler();
 	FullHealth = 100.0f;
 	Health = 30;
-	HealthPrecentage = 1.0f;
-	
+
+
+
 	FullStamina = 100.0f;
 	Stamina = FullStamina;
-	Stamina = 1.0f;
-	
-	bCanUseStamina = true;
+
+	Level = 1;
+
 }
 
 // Called every frame
@@ -150,14 +151,14 @@ void AMyCharacter::Fire()
 			{
 				currentProjectile->SetActorLocation(MuzzleLocation);
 
-				
+
 
 				FVector LaunchDirection = MuzzleRotation.Vector();
 
 				currentProjectile->SetActorHiddenInGame(true);
 
 				currentProjectile->FireInDirection(LaunchDirection);
-				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);		
+				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);
 
 			}
 
@@ -206,7 +207,7 @@ void AMyCharacter::InitPooler()
 
 	//FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
 
-	
+
 
 	UWorld* World = GetWorld();
 	if (World)
@@ -237,31 +238,17 @@ float AMyCharacter::PickUpHp()
 	return Health;
 }
 
-FText AMyCharacter::GetStamianinText()
-{
-	return FText();
-}
 
-void AMyCharacter::DamageTimer()
-{
-}
 
-void AMyCharacter::SetDamageState()
-{
-}
+
 
 void AMyCharacter::SetStaminaValue()
 {
 }
 
-void AMyCharacter::SetStaminaState()
-{
-}
 
-void AMyCharacter::UpdateStamina()
-{
 
-}
+
 
 void AMyCharacter::DealDamage(float Damage)
 {
@@ -269,18 +256,28 @@ void AMyCharacter::DealDamage(float Damage)
 	if (Health < 0)
 		Health = 0;
 }
-void AMyCharacter::SetStaminaChange(float StaminaValue)
+
+
+
+void AMyCharacter::LevelUp()
 {
+	Level += 1;
 }
 float AMyCharacter::GetStamina()
 {
 	return NULL;
 }
 
-
-void AMyCharacter::RecievePointDamage(float Damage, const UDamageType* DamageType, FVector HitLocation, FVector HitNormal, UPrimitiveComponent* HitComponent, FName BoneName, FVector ShootFromDirection, AController* InstigateBy, AActor* DamageCauser, const FHitResult& HitInfo)
+int AMyCharacter::GetMaxCountBullets()
 {
+	if (weapon != NULL)
+	{
+		return weapon->maxCountBullets;
+	}
+	return 0;
 }
+
+
 
 int AMyCharacter::GetBulletsInMagazine()
 {
@@ -297,20 +294,38 @@ int AMyCharacter::GetCountBullets() {
 	}
 	return NULL;
 }
-void AMyCharacter::UpdateHealth(float HealthChange)
+
+void AMyCharacter::GetExpirienceKill(int exp)
 {
+	Expirience += exp;
+	if (Expirience >= 100)
+	{
+
+		LevelUp();
+		Expirience -= 100;
+	}
+}
+
+
+int AMyCharacter::GetDamageFromBullet()
+{
+	if (weapon != NULL)
+	{
+		return weapon->damageFromBullets;
+	}
+	return 0;
 }
 
 void AMyCharacter::ReloadWeapon()
 {
 	if (weapon->Reload())
-	{	
+	{
 		if (weapon->ReloadSound != nullptr)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->ReloadSound, GetActorLocation());
 		}
 	}
-	
+
 }
 
 

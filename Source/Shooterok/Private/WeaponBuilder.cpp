@@ -34,6 +34,10 @@ void WeaponBuilder::SetCountBullet()
 {
 }
 
+void WeaponBuilder::SetMaxCountBullet()
+{
+}
+
 
 void WeaponBuilder::SetLevelOfWeapon() {}
 
@@ -89,7 +93,7 @@ void RifleBuilder::SetmaxBulletsInMagazine()
 
 void RifleBuilder::SetdamageFromBullets()
 {
-	weapon->damageFromBullets = 30;
+	weapon->damageFromBullets = 25;
 }
 
 void RifleBuilder::SetGunOffset()
@@ -137,10 +141,16 @@ void RifleBuilder::CreateWeapon()
 	RifleBuilder::SetCountBullet();
 	RifleBuilder::SetMagazineEmptySound();
 	RifleBuilder::SetReloadSound();
+	RifleBuilder::SetMaxCountBullet();
 
 
 	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
 
+}
+
+void RifleBuilder::SetMaxCountBullet()
+{
+	weapon->maxCountBullets = weapon->countBullets;
 }
 
 #pragma endregion

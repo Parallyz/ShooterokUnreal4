@@ -27,6 +27,7 @@ public:
 	virtual void SetdamageFromBullets() = 0;
 	virtual void SetGunOffset() = 0;
 	virtual void SetCountBullet() = 0;
+	virtual void SetMaxCountBullet() = 0;
 
 	virtual Weapon* GetWeapon();
 	virtual void CreateWeapon();
@@ -46,4 +47,6 @@ public:
 	void SetMagazineEmptySound();
 	void SetReloadSound();
 	void CreateWeapon();
+	void SetMaxCountBullet();
+
 };

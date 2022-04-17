@@ -11,7 +11,7 @@ AEnemy::AEnemy()
 	PrimaryActorTick.bCanEverTick = true;
 
 	healthPoint = 100;
-
+	
 	//DamageCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("DamageCollision"));
 
 	//DamageCollision->OnComponentBeginOverlap.Add(&AEnemy::OnHit)//.AddDynamic(this, );
@@ -31,7 +31,7 @@ void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	InitPooler();
-
+	expirienceByKill = 20;
 	//GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AEnemy::Fire, 1.0f, true, 0.7f);
 
 	// 

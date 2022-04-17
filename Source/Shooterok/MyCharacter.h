@@ -56,8 +56,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stamina)
 		float FullStamina;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stamina)
-		float StaminaPercentage;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stamina)
 		float Stamina;
@@ -65,33 +64,26 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Health)
 		FTimerHandle MemberTimerHandle;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
-		FTimerHandle StaminaTimerHandle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Health)
-		bool redFlash;
 
 
 
-	UPROPERTY(EditAnywhere, Category = Health)
-		FTimeline  Timeline;
+
 
 
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int expirience;
+		int Expirience;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		int level;
+		int Level;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		UAnimMontage* FireAnimation;
 
 	AFPSProjectile* currentProjectile;
 
-	bool bCanUseStamina;
-	float TimelineValue;
+
 
 
 
@@ -141,23 +133,24 @@ public:
 	UFUNCTION(BlueprintPure, Category = Stamina)
 		float GetStamina();
 
-	UFUNCTION(BlueprintPure, Category = Stamina)
-		FText GetStamianinText();
+	UFUNCTION(BlueprintCallable)
+		int GetMaxCountBullets();
+
+
+	UFUNCTION(BlueprintCallable)
+		int GetDamageFromBullet();
 
 	UFUNCTION()
 		void ReloadWeapon();
 
-	UFUNCTION()
-		void DamageTimer();
 
-	UFUNCTION()
-		void SetDamageState();
+
+
 
 	UFUNCTION()
 		void SetStaminaValue();
 
-	UFUNCTION()
-		void SetStaminaState();
+
 
 	UFUNCTION(BlueprintCallable)
 		int GetBulletsInMagazine();
@@ -165,22 +158,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 		int GetCountBullets();
 
-	UFUNCTION()
-		void SetStaminaChange(float StaminaValue);
-
-	UFUNCTION()
-		void UpdateStamina();
+	UFUNCTION(BlueprintCallable)
+		void GetExpirienceKill(int exp);
+	
 
 	UFUNCTION()
 		void DealDamage(float Damage);
 
-	UFUNCTION()
-		void RecievePointDamage(float Damage,const UDamageType* DamageType,FVector HitLocation,
-			FVector HitNormal,UPrimitiveComponent *HitComponent,FName BoneName,FVector ShootFromDirection,
-			AController * InstigateBy,AActor* DamageCauser,const FHitResult& HitInfo);
-	UFUNCTION(BlueprintCallable, Category = Health)
-		void UpdateHealth(float HealthChange);
-
+	UFUNCTION(BlueprintCallable)
+		void LevelUp();
 
 	UFUNCTION()
 		void InitPooler();

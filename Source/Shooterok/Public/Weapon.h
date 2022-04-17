@@ -46,6 +46,9 @@ public:
 		int maxBulletsInMagazine;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+		int maxCountBullets;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int damageFromBullets;
 
 
