@@ -133,7 +133,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = Stamina)
 		float GetStamina();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintPure)
 		int GetMaxCountBullets();
 
 
