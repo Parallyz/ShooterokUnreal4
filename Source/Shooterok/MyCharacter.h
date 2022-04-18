@@ -44,6 +44,7 @@ public:
 
 	ObjectPooler* pooler;
 
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		float HealthPrecentage;
@@ -76,10 +77,16 @@ public:
 		int Expirience;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+		int Kills;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int Level;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		UAnimMontage* FireAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		UAnimMontage* ReloadAnimation;
 
 	AFPSProjectile* currentProjectile;
 
@@ -132,6 +139,18 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = Stamina)
 		float GetStamina();
+
+	UFUNCTION(BlueprintPure)
+		float GetBaseTurnRate();
+
+	UFUNCTION(BlueprintPure)
+		float GetBaseUpRate();
+
+	UFUNCTION(BlueprintCallable)
+		void SetBaseTurnRate(float value);
+
+	UFUNCTION(BlueprintCallable)
+		void SetBaseUpRate(float value);
 
 	UFUNCTION(BlueprintPure)
 		int GetMaxCountBullets();

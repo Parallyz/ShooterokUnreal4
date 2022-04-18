@@ -15,6 +15,13 @@ public:
 	~MyGameState();
 
 	int _killsEnemy;
+	int _Bulletcount;
+	int _bulletInMagazine;
+	int _baseTurnRate;
+	int _baseUpRate;
+	int _exp;
+	int _Level;
+
 	int _hp;
 	FVector lastHeroLocation;
 	Weapon *lastHeroWeapon;
