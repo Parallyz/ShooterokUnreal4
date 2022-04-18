@@ -31,10 +31,10 @@ void ObjectPooler::OnEnable(int countPool, TSubclassOf<class AFPSProjectile> Pro
 
 	for (int i = 0;i < countPool;i++)
 	{
-		MuzzleLocation = FVector(MuzzleLocation.X, MuzzleLocation.Y, MuzzleLocation.Z - 1000 * i);
+		MuzzleLocation = FVector(MuzzleLocation.X, MuzzleLocation.Y, MuzzleLocation.Z - 1000 );
 		AFPSProjectile* proj = World.SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
-		proj->Id = i;
-		proj->SetActorHiddenInGame(true);
+		//proj->Id = i;
+		//proj->SetActorHiddenInGame(true);
 
 		pooledObjects->push_back(proj);
 	}

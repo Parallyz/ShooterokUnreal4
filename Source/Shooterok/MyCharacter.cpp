@@ -12,8 +12,8 @@ AMyCharacter::AMyCharacter()
 {
 	GetCapsuleComponent()->InitCapsuleSize(70.f, 80.0f);
 
-	BaseTurnRate = 45.f;
-	BaseLookUpRate = 45.f;
+	//BaseTurnRate = 45.f;
+	//BaseLookUpRate = 45.f;
 
 
 	PrimaryActorTick.bCanEverTick = true;
@@ -155,7 +155,7 @@ void AMyCharacter::Fire()
 
 				FVector LaunchDirection = MuzzleRotation.Vector();
 
-				currentProjectile->SetActorHiddenInGame(true);
+				//currentProjectile->SetActorHiddenInGame(true);
 
 				currentProjectile->FireInDirection(LaunchDirection);
 				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);
@@ -268,6 +268,26 @@ float AMyCharacter::GetStamina()
 	return NULL;
 }
 
+float AMyCharacter::GetBaseTurnRate()
+{
+	return BaseTurnRate;
+}
+
+float AMyCharacter::GetBaseUpRate()
+{
+	return BaseLookUpRate;
+}
+
+void AMyCharacter::SetBaseTurnRate(float value)
+{
+	BaseTurnRate = value;
+}
+
+void AMyCharacter::SetBaseUpRate(float value)
+{
+	BaseLookUpRate = value;
+}
+
 int AMyCharacter::GetMaxCountBullets()
 {
 	if (weapon != NULL)
@@ -323,6 +343,10 @@ void AMyCharacter::ReloadWeapon()
 		if (weapon->ReloadSound != nullptr)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->ReloadSound, GetActorLocation());
+		}
+		if (ReloadAnimation != nullptr)
+		{
+			FPSMesh->PlayAnimation(ReloadAnimation, false);
 		}
 	}
 
