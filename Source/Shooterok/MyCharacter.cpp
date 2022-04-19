@@ -74,7 +74,7 @@ void AMyCharacter::BeginPlay()
 	Health = 30;
 
 
-
+	Kills = 0;
 	FullStamina = 100.0f;
 	Stamina = FullStamina;
 
@@ -169,15 +169,7 @@ void AMyCharacter::Fire()
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->FireSound, GetActorLocation());
 		}
 
-		if (FireAnimation != nullptr)
-		{
-
-			UAnimInstance* AnimInstance = FPSMesh->GetAnimInstance();
-			if (AnimInstance != nullptr)
-			{
-				AnimInstance->Montage_Play(FireAnimation, 1.f);
-			}
-		}
+		
 	}
 
 	else if (weapon->currentBulletsInMagazine == 0) {
