@@ -242,7 +242,10 @@ void AMyCharacter::DealDamage(float Damage)
 		Health = 0;
 }
 
-
+bool AMyCharacter::FullMagazine()
+{
+	return weapon->IsMagazineFool();
+}
 
 void AMyCharacter::LevelUp()
 {
