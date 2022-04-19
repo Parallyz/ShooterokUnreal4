@@ -65,7 +65,7 @@ void AEnemy::DealDamage(float damage)
 	healthPoint -= damage;
 	if (healthPoint <= 0)
 	{
-		Destroy();
+	//	Destroy();
 	}
 }
 

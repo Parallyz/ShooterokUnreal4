@@ -31,10 +31,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		float BaseVolume;
+
 	UPROPERTY(VisibleAnywhere)
 		UCameraComponent* FPSCameraComponent;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
 	
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
@@ -44,8 +47,7 @@ public:
 
 	ObjectPooler* pooler;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		UAnimMontage* FireAnimation;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		float HealthPrecentage;
@@ -83,7 +85,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int Level;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+		int isCanFire;
 
 	AFPSProjectile* currentProjectile;
 
@@ -128,14 +131,19 @@ public:
 	UFUNCTION()
 		void Fire();
 
+	UFUNCTION()
+		void SaveGame();
+
+	UFUNCTION()
+		void LoadGame();
+
 	UFUNCTION(BlueprintCallable)
 		void PickUpAmmo();
 
 	UFUNCTION(BlueprintCallable,Category=Health)
 		float PickUpHp();
 
-	UFUNCTION(BlueprintPure, Category = Stamina)
-		float GetStamina();
+	
 
 	UFUNCTION(BlueprintPure)
 		float GetBaseTurnRate();
@@ -158,15 +166,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void ReloadWeapon();
-
-
-	
-
-
-	UFUNCTION()
-		void SetStaminaValue();
-
-
 
 	UFUNCTION(BlueprintCallable)
 		int GetBulletsInMagazine();

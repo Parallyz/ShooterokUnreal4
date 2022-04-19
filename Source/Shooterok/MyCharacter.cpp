@@ -2,6 +2,7 @@
 
 
 #include "MyCharacter.h"
+#include <Shooterok/Public/MySaveGame.h>
 
 
 
@@ -73,11 +74,11 @@ void AMyCharacter::BeginPlay()
 	FullHealth = 100.0f;
 	Health = 30;
 
-
+	BaseVolume = 1.f;
 	Kills = 0;
 	FullStamina = 100.0f;
 	Stamina = FullStamina;
-
+	isCanFire = true;
 	Level = 1;
 
 }
@@ -103,6 +104,11 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::StopJump);
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::Fire);
+
+	PlayerInputComponent->BindAction("SaveGame", IE_Pressed, this, &AMyCharacter::SaveGame);
+	PlayerInputComponent->BindAction("LoadGame", IE_Pressed, this, &AMyCharacter::LoadGame);
+
+
 
 	//PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMyCharacter::ReloadWeapon);
 
@@ -132,7 +138,7 @@ void AMyCharacter::StopJump()
 void AMyCharacter::Fire()
 {
 
-	if (ProjectileClass && weapon->Fire())
+	if (ProjectileClass && weapon->Fire() && isCanFire)
 	{
 
 		FVector CameraLocation;
@@ -141,8 +147,8 @@ void AMyCharacter::Fire()
 
 
 		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
-
 		FRotator MuzzleRotation = CameraRotation;
+
 
 		if (pooler->IfInit())
 		{
@@ -168,16 +174,8 @@ void AMyCharacter::Fire()
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->FireSound, GetActorLocation());
 		}
-		if (FireAnimation != nullptr)
-		{
 
-			UAnimInstance* AnimInstance = FPSMesh->GetAnimInstance();
-			if (AnimInstance != nullptr)
-			{
-				AnimInstance->Montage_Play(FireAnimation, 1.f);
-			}
-		}
-		
+
 	}
 
 	else if (weapon->currentBulletsInMagazine == 0) {
@@ -240,16 +238,6 @@ float AMyCharacter::PickUpHp()
 
 
 
-
-
-void AMyCharacter::SetStaminaValue()
-{
-}
-
-
-
-
-
 void AMyCharacter::DealDamage(float Damage)
 {
 	Health -= Damage;
@@ -263,10 +251,10 @@ void AMyCharacter::LevelUp()
 {
 	Level += 1;
 }
-float AMyCharacter::GetStamina()
-{
-	return NULL;
-}
+
+
+
+
 
 float AMyCharacter::GetBaseTurnRate()
 {
@@ -344,11 +332,62 @@ void AMyCharacter::ReloadWeapon()
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->ReloadSound, GetActorLocation());
 		}
-		
+
 	}
 
 }
 
 
 
+void AMyCharacter::SaveGame()
+{
+	
+	if (weapon != NULL)
+	{
 
+
+		UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+
+
+		SaveGameInstance->baseUpRate = BaseLookUpRate;
+		SaveGameInstance->baseTurnRate = BaseTurnRate;
+		SaveGameInstance->killsEnemy = Kills;
+		SaveGameInstance->Bulletcount = weapon->countBullets;
+		SaveGameInstance->bulletInMagazine = weapon->currentBulletsInMagazine;
+		SaveGameInstance->baseVolume = BaseVolume;
+		SaveGameInstance->exp = Expirience;
+		SaveGameInstance->Level = Level;
+		SaveGameInstance->hp = Health;
+		SaveGameInstance->lastHeroLocation = GetActorLocation();
+		SaveGameInstance->lastHeroWeapon = weapon;
+
+
+		UGameplayStatics::SaveGameToSlot(SaveGameInstance, TEXT("Slot1"), 0);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game saved"));
+
+	}
+}
+
+void AMyCharacter::LoadGame()
+{
+
+	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+
+	SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot("Slot1", 0));
+
+	weapon = SaveGameInstance->lastHeroWeapon;
+	BaseLookUpRate = SaveGameInstance->baseUpRate;
+	BaseTurnRate = SaveGameInstance->baseTurnRate;
+	Kills = SaveGameInstance->killsEnemy;
+	weapon->countBullets = SaveGameInstance->Bulletcount;
+	weapon->currentBulletsInMagazine = SaveGameInstance->bulletInMagazine;
+	BaseVolume = SaveGameInstance->baseVolume = BaseVolume;
+	Expirience = SaveGameInstance->exp = Expirience;
+	Level = SaveGameInstance->Level = Level;
+	Health = SaveGameInstance->hp = Health;
+	this->SetActorLocation(SaveGameInstance->lastHeroLocation);
+	
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game loaded"));
+
+}
