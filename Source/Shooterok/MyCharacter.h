@@ -44,7 +44,8 @@ public:
 
 	ObjectPooler* pooler;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		UAnimMontage* FireAnimation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		float HealthPrecentage;
@@ -159,7 +160,7 @@ public:
 		void ReloadWeapon();
 
 
-
+	
 
 
 	UFUNCTION()

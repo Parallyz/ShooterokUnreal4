@@ -50,3 +50,58 @@ public:
 	void SetMaxCountBullet();
 
 };
+
+
+class  PistolBuilder : public WeaponBuilder
+{
+public:
+
+	void SetMuzzleOffset();
+	void SetFireSound();
+	void SetLevelOfWeapon();
+	void SetmaxBulletsInMagazine();
+	void SetdamageFromBullets();
+	void SetGunOffset();
+	void SetCountBullet();
+	void SetMagazineEmptySound();
+	void SetReloadSound();
+	void CreateWeapon();
+	void SetMaxCountBullet();
+
+};
+
+class  ShotGunBuilder : public WeaponBuilder
+{
+public:
+
+	void SetMuzzleOffset();
+	void SetFireSound();
+	void SetLevelOfWeapon();
+	void SetmaxBulletsInMagazine();
+	void SetdamageFromBullets();
+	void SetGunOffset();
+	void SetCountBullet();
+	void SetMagazineEmptySound();
+	void SetReloadSound();
+	void CreateWeapon();
+	void SetMaxCountBullet();
+
+};
+
+class  GrenadeBuilder : public WeaponBuilder
+{
+public:
+
+	void SetMuzzleOffset();
+	void SetFireSound();
+	void SetLevelOfWeapon();
+	void SetmaxBulletsInMagazine();
+	void SetdamageFromBullets();
+	void SetGunOffset();
+	void SetCountBullet();
+	void SetMagazineEmptySound();
+	void SetReloadSound();
+	void CreateWeapon();
+	void SetMaxCountBullet();
+
+};
