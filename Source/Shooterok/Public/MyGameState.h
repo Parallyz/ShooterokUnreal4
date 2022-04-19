@@ -17,8 +17,9 @@ public:
 	int _killsEnemy;
 	int _Bulletcount;
 	int _bulletInMagazine;
-	int _baseTurnRate;
-	int _baseUpRate;
+	float _baseTurnRate;
+	float _baseUpRate;
+	float _baseVolume;
 	int _exp;
 	int _Level;
 

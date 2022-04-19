@@ -159,7 +159,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		int GetDamageFromBullet();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		void ReloadWeapon();
 
 

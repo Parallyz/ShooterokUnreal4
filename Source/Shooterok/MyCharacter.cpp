@@ -104,7 +104,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::Fire);
 
-	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMyCharacter::ReloadWeapon);
+	//PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMyCharacter::ReloadWeapon);
 
 }
 
@@ -344,10 +344,7 @@ void AMyCharacter::ReloadWeapon()
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->ReloadSound, GetActorLocation());
 		}
-		if (ReloadAnimation != nullptr)
-		{
-			FPSMesh->PlayAnimation(ReloadAnimation, false);
-		}
+		
 	}
 
 }
