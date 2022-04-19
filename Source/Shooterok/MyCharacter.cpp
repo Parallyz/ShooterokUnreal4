@@ -103,7 +103,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::StopJump);
 
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::Fire);
+	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::Fire);
 
 	PlayerInputComponent->BindAction("SaveGame", IE_Pressed, this, &AMyCharacter::SaveGame);
 	PlayerInputComponent->BindAction("LoadGame", IE_Pressed, this, &AMyCharacter::LoadGame);
@@ -347,8 +347,10 @@ void AMyCharacter::SaveGame()
 
 
 		UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+		
 
-
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::FromInt(Health));
+		UE_LOG(LogTemp, Warning, TEXT("Text: %s"), Health);
 		SaveGameInstance->baseUpRate = BaseLookUpRate;
 		SaveGameInstance->baseTurnRate = BaseTurnRate;
 		SaveGameInstance->killsEnemy = Kills;
@@ -375,16 +377,16 @@ void AMyCharacter::LoadGame()
 
 	SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot("Slot1", 0));
 
-	weapon = SaveGameInstance->lastHeroWeapon;
+	//weapon = SaveGameInstance->lastHeroWeapon;
 	BaseLookUpRate = SaveGameInstance->baseUpRate;
 	BaseTurnRate = SaveGameInstance->baseTurnRate;
 	Kills = SaveGameInstance->killsEnemy;
 	weapon->countBullets = SaveGameInstance->Bulletcount;
 	weapon->currentBulletsInMagazine = SaveGameInstance->bulletInMagazine;
-	BaseVolume = SaveGameInstance->baseVolume = BaseVolume;
-	Expirience = SaveGameInstance->exp = Expirience;
-	Level = SaveGameInstance->Level = Level;
-	Health = SaveGameInstance->hp = Health;
+	BaseVolume = SaveGameInstance->baseVolume;
+	Expirience = SaveGameInstance->exp ;
+	Level = SaveGameInstance->Level ;
+	Health = SaveGameInstance->hp ;
 	this->SetActorLocation(SaveGameInstance->lastHeroLocation);
 	
 

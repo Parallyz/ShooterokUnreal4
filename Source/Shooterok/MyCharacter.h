@@ -128,7 +128,7 @@ public:
 		void StopJump();
 
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		void Fire();
 
 	UFUNCTION()
