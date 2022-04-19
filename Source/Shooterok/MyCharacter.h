@@ -82,11 +82,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int Level;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		UAnimMontage* FireAnimation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		UAnimMontage* ReloadAnimation;
+	
 
 	AFPSProjectile* currentProjectile;
 
@@ -159,7 +155,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		int GetDamageFromBullet();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		void ReloadWeapon();
 
 

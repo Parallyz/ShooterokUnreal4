@@ -74,7 +74,7 @@ void AMyCharacter::BeginPlay()
 	Health = 30;
 
 
-
+	Kills = 0;
 	FullStamina = 100.0f;
 	Stamina = FullStamina;
 
@@ -104,7 +104,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::Fire);
 
-	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMyCharacter::ReloadWeapon);
+	//PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMyCharacter::ReloadWeapon);
 
 }
 
@@ -169,15 +169,7 @@ void AMyCharacter::Fire()
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->FireSound, GetActorLocation());
 		}
 
-		if (FireAnimation != nullptr)
-		{
-
-			UAnimInstance* AnimInstance = FPSMesh->GetAnimInstance();
-			if (AnimInstance != nullptr)
-			{
-				AnimInstance->Montage_Play(FireAnimation, 1.f);
-			}
-		}
+		
 	}
 
 	else if (weapon->currentBulletsInMagazine == 0) {
@@ -344,10 +336,7 @@ void AMyCharacter::ReloadWeapon()
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, weapon->ReloadSound, GetActorLocation());
 		}
-		if (ReloadAnimation != nullptr)
-		{
-			FPSMesh->PlayAnimation(ReloadAnimation, false);
-		}
+		
 	}
 
 }

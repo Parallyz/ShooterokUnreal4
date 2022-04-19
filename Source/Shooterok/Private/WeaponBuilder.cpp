@@ -73,7 +73,8 @@ void RifleBuilder::SetMuzzleOffset()
 
 void RifleBuilder::SetFireSound()
 {
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/MilitaryWeapDark/Sound/Rifle/Wavs/RifleB_Fire_ST01.RifleB_Fire_ST01'"));
+	
+	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/Rifle/RifleB_Fire_Cue.RifleB_Fire_Cue'"));
 
 	if (Sound.Succeeded())
 	{
@@ -108,7 +109,7 @@ void RifleBuilder::SetCountBullet()
 
 void RifleBuilder::SetMagazineEmptySound()
 {
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/MilitaryWeapDark/Sound/Rifle/Wavs/Rifle_AmmoPickup.Rifle_AmmoPickup'"));
+	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/Rifle/Rifle_AmmoPickup_Cue.Rifle_AmmoPickup_Cue'"));
 
 	if (Sound.Succeeded())
 	{
@@ -119,7 +120,7 @@ void RifleBuilder::SetMagazineEmptySound()
 void RifleBuilder::SetReloadSound()
 {
 	
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("/Game/MilitaryWeapDark/Sound/Rifle/Wavs/Rifle_Reload02.Rifle_Reload02"));
+	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/Rifle/Rifle_Reload_Cue.Rifle_Reload_Cue'"));
 
 	if (Sound.Succeeded())
 	{
