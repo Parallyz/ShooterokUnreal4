@@ -19,9 +19,9 @@ public:
 	~WeaponBuilder();
 
 	virtual void SetMuzzleOffset() = 0;
-	virtual void SetFireSound() = 0;
+	
 	virtual void SetMagazineEmptySound() = 0;
-	virtual void SetReloadSound() = 0;
+
 	virtual void SetLevelOfWeapon() = 0;
 	virtual void SetmaxBulletsInMagazine() = 0;
 	virtual void SetdamageFromBullets() = 0;
@@ -38,14 +38,14 @@ class  RifleBuilder : public WeaponBuilder
 public:
 
 	void SetMuzzleOffset();
-	void SetFireSound();
+	
 	void SetLevelOfWeapon();
 	void SetmaxBulletsInMagazine();
 	void SetdamageFromBullets();
 	void SetGunOffset();
 	void SetCountBullet();
 	void SetMagazineEmptySound();
-	void SetReloadSound();
+
 	void CreateWeapon();
 	void SetMaxCountBullet();
 
@@ -57,14 +57,14 @@ class  PistolBuilder : public WeaponBuilder
 public:
 
 	void SetMuzzleOffset();
-	void SetFireSound();
+	
 	void SetLevelOfWeapon();
 	void SetmaxBulletsInMagazine();
 	void SetdamageFromBullets();
 	void SetGunOffset();
 	void SetCountBullet();
 	void SetMagazineEmptySound();
-	void SetReloadSound();
+	
 	void CreateWeapon();
 	void SetMaxCountBullet();
 
@@ -75,14 +75,14 @@ class  ShotGunBuilder : public WeaponBuilder
 public:
 
 	void SetMuzzleOffset();
-	void SetFireSound();
+	
 	void SetLevelOfWeapon();
 	void SetmaxBulletsInMagazine();
 	void SetdamageFromBullets();
 	void SetGunOffset();
 	void SetCountBullet();
 	void SetMagazineEmptySound();
-	void SetReloadSound();
+
 	void CreateWeapon();
 	void SetMaxCountBullet();
 
@@ -93,14 +93,14 @@ class  GrenadeBuilder : public WeaponBuilder
 public:
 
 	void SetMuzzleOffset();
-	void SetFireSound();
+	
 	void SetLevelOfWeapon();
 	void SetmaxBulletsInMagazine();
 	void SetdamageFromBullets();
 	void SetGunOffset();
 	void SetCountBullet();
 	void SetMagazineEmptySound();
-	void SetReloadSound();
+	
 	void CreateWeapon();
 	void SetMaxCountBullet();
 
