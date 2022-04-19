@@ -170,10 +170,7 @@ void AMyCharacter::Fire()
 
 		}
 
-		if (weapon->FireSound != nullptr)
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, weapon->FireSound, GetActorLocation());
-		}
+		
 
 
 	}
@@ -328,10 +325,7 @@ void AMyCharacter::ReloadWeapon()
 {
 	if (weapon->Reload())
 	{
-		if (weapon->ReloadSound != nullptr)
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, weapon->ReloadSound, GetActorLocation());
-		}
+		
 
 	}
 

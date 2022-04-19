@@ -20,7 +20,6 @@ void WeaponBuilder::SetMuzzleOffset() {}
 
 
 
-void WeaponBuilder::SetFireSound() {}
 
 void WeaponBuilder::SetMagazineEmptySound()
 {
@@ -71,16 +70,7 @@ void RifleBuilder::SetMuzzleOffset()
 
 
 
-void RifleBuilder::SetFireSound()
-{
-	
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/Rifle/RifleB_Fire_Cue.RifleB_Fire_Cue'"));
 
-	if (Sound.Succeeded())
-	{
-		weapon->FireSound = Sound.Object;
-	}
-}
 
 void RifleBuilder::SetLevelOfWeapon()
 {
@@ -117,16 +107,7 @@ void RifleBuilder::SetMagazineEmptySound()
 	}
 }
 
-void RifleBuilder::SetReloadSound()
-{
-	
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/Rifle/Rifle_Reload_Cue.Rifle_Reload_Cue'"));
 
-	if (Sound.Succeeded())
-	{
-		weapon->ReloadSound = Sound.Object;
-	}
-}
 
 
 
@@ -137,11 +118,11 @@ void RifleBuilder::CreateWeapon()
 	RifleBuilder::SetmaxBulletsInMagazine();
 	RifleBuilder::SetdamageFromBullets();
 	RifleBuilder::SetLevelOfWeapon();
-	RifleBuilder::SetFireSound();
+
 	RifleBuilder::SetMuzzleOffset();
 	RifleBuilder::SetCountBullet();
 	RifleBuilder::SetMagazineEmptySound();
-	RifleBuilder::SetReloadSound();
+
 	RifleBuilder::SetMaxCountBullet();
 
 
@@ -166,16 +147,7 @@ void PistolBuilder::SetMuzzleOffset()
 
 
 
-void PistolBuilder::SetFireSound()
-{
 
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/Pistol/PistolB_Fire_Cue.PistolB_Fire_Cue'"));
-
-	if (Sound.Succeeded())
-	{
-		weapon->FireSound = Sound.Object;
-	}
-}
 
 void PistolBuilder::SetLevelOfWeapon()
 {
@@ -212,19 +184,6 @@ void PistolBuilder::SetMagazineEmptySound()
 	}
 }
 
-void PistolBuilder::SetReloadSound()
-{
-
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/Pistol/Pistol_ReloadInsert_Cue.Pistol_ReloadInsert_Cue'"));
-
-	if (Sound.Succeeded())
-	{
-		weapon->ReloadSound = Sound.Object;
-	}
-}
-
-
-
 void PistolBuilder::CreateWeapon()
 {
 	WeaponBuilder::CreateWeapon();
@@ -232,11 +191,11 @@ void PistolBuilder::CreateWeapon()
 	PistolBuilder::SetmaxBulletsInMagazine();
 	PistolBuilder::SetdamageFromBullets();
 	PistolBuilder::SetLevelOfWeapon();
-	PistolBuilder::SetFireSound();
+	
 	PistolBuilder::SetMuzzleOffset();
 	PistolBuilder::SetCountBullet();
 	PistolBuilder::SetMagazineEmptySound();
-	PistolBuilder::SetReloadSound();
+
 	PistolBuilder::SetMaxCountBullet();
 
 
@@ -258,17 +217,6 @@ void ShotGunBuilder::SetMuzzleOffset()
 }
 
 
-
-void ShotGunBuilder::SetFireSound()
-{
-
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/ShotGun/ShotgunB_Fire_Cue.ShotgunB_Fire_Cue'"));
-
-	if (Sound.Succeeded())
-	{
-		weapon->FireSound = Sound.Object;
-	}
-}
 
 void ShotGunBuilder::SetLevelOfWeapon()
 {
@@ -305,16 +253,6 @@ void ShotGunBuilder::SetMagazineEmptySound()
 	}
 }
 
-void ShotGunBuilder::SetReloadSound()
-{
-
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/ShotGun/Shotgun_Reload_Cue.Shotgun_Reload_Cue'"));
-
-	if (Sound.Succeeded())
-	{
-		weapon->ReloadSound = Sound.Object;
-	}
-}
 
 void ShotGunBuilder::SetMaxCountBullet()
 {
@@ -328,11 +266,11 @@ void ShotGunBuilder::CreateWeapon()
 	ShotGunBuilder::SetmaxBulletsInMagazine();
 	ShotGunBuilder::SetdamageFromBullets();
 	ShotGunBuilder::SetLevelOfWeapon();
-	ShotGunBuilder::SetFireSound();
+
 	ShotGunBuilder::SetMuzzleOffset();
 	ShotGunBuilder::SetCountBullet();
 	ShotGunBuilder::SetMagazineEmptySound();
-	ShotGunBuilder::SetReloadSound();
+
 	ShotGunBuilder::SetMaxCountBullet();
 
 
@@ -351,17 +289,6 @@ void GrenadeBuilder::SetMuzzleOffset()
 }
 
 
-
-void GrenadeBuilder::SetFireSound()
-{
-
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/Grenade/GrenadeLauncherB_Fire_Cue.GrenadeLauncherB_Fire_Cue'"));
-
-	if (Sound.Succeeded())
-	{
-		weapon->FireSound = Sound.Object;
-	}
-}
 
 void GrenadeBuilder::SetLevelOfWeapon()
 {
@@ -398,17 +325,6 @@ void GrenadeBuilder::SetMagazineEmptySound()
 	}
 }
 
-void GrenadeBuilder::SetReloadSound()
-{
-
-	static ConstructorHelpers::FObjectFinder<USoundBase>Sound(TEXT("'/Game/Sounds/Weapons/Grenade/GrenadeLauncher_ReloadInsert_Cue.GrenadeLauncher_ReloadInsert_Cue'"));
-
-	if (Sound.Succeeded())
-	{
-		weapon->ReloadSound = Sound.Object;
-	}
-}
-
 void GrenadeBuilder::SetMaxCountBullet()
 {
 	weapon->maxCountBullets = weapon->countBullets;
@@ -421,11 +337,9 @@ void GrenadeBuilder::CreateWeapon()
 	GrenadeBuilder::SetmaxBulletsInMagazine();
 	GrenadeBuilder::SetdamageFromBullets();
 	GrenadeBuilder::SetLevelOfWeapon();
-	GrenadeBuilder::SetFireSound();
 	GrenadeBuilder::SetMuzzleOffset();
 	GrenadeBuilder::SetCountBullet();
 	GrenadeBuilder::SetMagazineEmptySound();
-	GrenadeBuilder::SetReloadSound();
 	GrenadeBuilder::SetMaxCountBullet();
 
 
