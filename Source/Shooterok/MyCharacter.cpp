@@ -105,8 +105,8 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::Fire);
 
-	PlayerInputComponent->BindAction("SaveGame", IE_Pressed, this, &AMyCharacter::SaveGame);
-	PlayerInputComponent->BindAction("LoadGame", IE_Pressed, this, &AMyCharacter::LoadGame);
+	//PlayerInputComponent->BindAction("SaveGame", IE_Pressed, this, &AMyCharacter::SaveGame);
+	//PlayerInputComponent->BindAction("LoadGame", IE_Pressed, this, &AMyCharacter::LoadGame);
 
 
 
@@ -235,6 +235,12 @@ float AMyCharacter::PickUpHp()
 
 
 
+void AMyCharacter::SetBulletsInMagazine(int count)
+{
+	weapon->currentBulletsInMagazine = count;
+}
+
+
 void AMyCharacter::DealDamage(float Damage)
 {
 	Health -= Damage;
@@ -242,7 +248,9 @@ void AMyCharacter::DealDamage(float Damage)
 		Health = 0;
 }
 
-
+void AMyCharacter::SetCountBullets(int count) {
+	weapon->countBullets = count;
+}
 
 void AMyCharacter::LevelUp()
 {
@@ -332,58 +340,58 @@ void AMyCharacter::ReloadWeapon()
 }
 
 
-
-void AMyCharacter::SaveGame()
-{
-	
-	if (weapon != NULL)
-	{
-
-
-		UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
-		
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::FromInt(Health));
-		UE_LOG(LogTemp, Warning, TEXT("Text: %s"), Health);
-		SaveGameInstance->baseUpRate = BaseLookUpRate;
-		SaveGameInstance->baseTurnRate = BaseTurnRate;
-		SaveGameInstance->killsEnemy = Kills;
-		SaveGameInstance->Bulletcount = weapon->countBullets;
-		SaveGameInstance->bulletInMagazine = weapon->currentBulletsInMagazine;
-		SaveGameInstance->baseVolume = BaseVolume;
-		SaveGameInstance->exp = Expirience;
-		SaveGameInstance->Level = Level;
-		SaveGameInstance->hp = Health;
-		SaveGameInstance->lastHeroLocation = GetActorLocation();
-		SaveGameInstance->lastHeroWeapon = weapon;
-
-
-		UGameplayStatics::SaveGameToSlot(SaveGameInstance, TEXT("Slot1"), 0);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game saved"));
-
-	}
-}
-
-void AMyCharacter::LoadGame()
-{
-
-	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
-
-	SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot("Slot1", 0));
-
-	//weapon = SaveGameInstance->lastHeroWeapon;
-	BaseLookUpRate = SaveGameInstance->baseUpRate;
-	BaseTurnRate = SaveGameInstance->baseTurnRate;
-	Kills = SaveGameInstance->killsEnemy;
-	weapon->countBullets = SaveGameInstance->Bulletcount;
-	weapon->currentBulletsInMagazine = SaveGameInstance->bulletInMagazine;
-	BaseVolume = SaveGameInstance->baseVolume;
-	Expirience = SaveGameInstance->exp ;
-	Level = SaveGameInstance->Level ;
-	Health = SaveGameInstance->hp ;
-	this->SetActorLocation(SaveGameInstance->lastHeroLocation);
-	
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game loaded"));
-
-}
+//
+//void AMyCharacter::SaveGame()
+//{
+//	
+//	if (weapon != NULL)
+//	{
+//
+//
+//		UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+//		
+//
+//		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::FromInt(Health));
+//		UE_LOG(LogTemp, Warning, TEXT("Text: %s"), Health);
+//		SaveGameInstance->baseUpRate = BaseLookUpRate;
+//		SaveGameInstance->baseTurnRate = BaseTurnRate;
+//		SaveGameInstance->killsEnemy = Kills;
+//		SaveGameInstance->Bulletcount = weapon->countBullets;
+//		SaveGameInstance->bulletInMagazine = weapon->currentBulletsInMagazine;
+//		SaveGameInstance->baseVolume = BaseVolume;
+//		SaveGameInstance->exp = Expirience;
+//		SaveGameInstance->Level = Level;
+//		SaveGameInstance->hp = Health;
+//		SaveGameInstance->lastHeroLocation = GetActorLocation();
+//		SaveGameInstance->lastHeroWeapon = weapon;
+//
+//
+//		UGameplayStatics::SaveGameToSlot(SaveGameInstance, TEXT("Slot1"), 0);
+//		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game saved"));
+//
+//	}
+//}
+//
+//void AMyCharacter::LoadGame()
+//{
+//
+//	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+//
+//	SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot("Slot1", 0));
+//
+//	//weapon = SaveGameInstance->lastHeroWeapon;
+//	BaseLookUpRate = SaveGameInstance->baseUpRate;
+//	BaseTurnRate = SaveGameInstance->baseTurnRate;
+//	Kills = SaveGameInstance->killsEnemy;
+//	weapon->countBullets = SaveGameInstance->Bulletcount;
+//	weapon->currentBulletsInMagazine = SaveGameInstance->bulletInMagazine;
+//	BaseVolume = SaveGameInstance->baseVolume;
+//	Expirience = SaveGameInstance->exp ;
+//	Level = SaveGameInstance->Level ;
+//	Health = SaveGameInstance->hp ;
+//	this->SetActorLocation(SaveGameInstance->lastHeroLocation);
+//	
+//
+//	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game loaded"));
+//
+//}
