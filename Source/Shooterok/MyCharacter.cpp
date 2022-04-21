@@ -103,14 +103,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::StopJump);
 
-	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::Fire);
 
-	PlayerInputComponent->BindAction("SaveGame", IE_Pressed, this, &AMyCharacter::SaveGame);
-	PlayerInputComponent->BindAction("LoadGame", IE_Pressed, this, &AMyCharacter::LoadGame);
-
-
-
-	//PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMyCharacter::ReloadWeapon);
 
 }
 
@@ -137,51 +130,53 @@ void AMyCharacter::StopJump()
 }
 void AMyCharacter::Fire()
 {
-
-	if (ProjectileClass && weapon->Fire() && isCanFire)
+	if (weapon != NULL)
 	{
 
-		FVector CameraLocation;
-		FRotator CameraRotation;
-		GetActorEyesViewPoint(CameraLocation, CameraRotation);
-
-
-		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
-		FRotator MuzzleRotation = CameraRotation;
-
-
-		if (pooler->IfInit())
+		if (ProjectileClass && weapon->Fire() && isCanFire)
 		{
-			currentProjectile = pooler->GetProjectileToShoot();
-			if (currentProjectile != NULL)
+
+			FVector CameraLocation;
+			FRotator CameraRotation;
+			GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+
+			FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
+			FRotator MuzzleRotation = CameraRotation;
+
+
+			if (pooler->IfInit())
 			{
-				currentProjectile->SetActorLocation(MuzzleLocation);
+				currentProjectile = pooler->GetProjectileToShoot();
+				if (currentProjectile != NULL)
+				{
+					currentProjectile->SetActorLocation(MuzzleLocation);
 
 
 
-				FVector LaunchDirection = MuzzleRotation.Vector();
+					FVector LaunchDirection = MuzzleRotation.Vector();
 
-				//currentProjectile->SetActorHiddenInGame(true);
+					//currentProjectile->SetActorHiddenInGame(true);
 
-				currentProjectile->FireInDirection(LaunchDirection);
-				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);
+					currentProjectile->FireInDirection(LaunchDirection);
+					GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);
+
+				}
 
 			}
 
+
+
+
 		}
 
-		
-
-
-	}
-
-	else if (weapon->currentBulletsInMagazine == 0) {
-		if (weapon->EmptyMagazineSound != nullptr)
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, weapon->EmptyMagazineSound, GetActorLocation());
+		else if (weapon->currentBulletsInMagazine == 0) {
+			if (weapon->EmptyMagazineSound != nullptr)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, weapon->EmptyMagazineSound, GetActorLocation());
+			}
 		}
 	}
-
 }
 
 void AMyCharacter::ResetProjectile()
@@ -221,6 +216,7 @@ void AMyCharacter::InitPooler()
 
 void AMyCharacter::PickUpAmmo()
 {
+	if(weapon!=NULL)
 	weapon->countBullets += weapon->maxBulletsInMagazine;
 }
 
@@ -235,6 +231,13 @@ float AMyCharacter::PickUpHp()
 
 
 
+void AMyCharacter::SetBulletsInMagazine(int count)
+{
+	if (weapon != NULL)
+	weapon->currentBulletsInMagazine = count;
+}
+
+
 void AMyCharacter::DealDamage(float Damage)
 {
 	Health -= Damage;
@@ -242,9 +245,15 @@ void AMyCharacter::DealDamage(float Damage)
 		Health = 0;
 }
 
+<<<<<<< HEAD
 bool AMyCharacter::FullMagazine()
 {
 	return weapon->IsMagazineFool();
+=======
+void AMyCharacter::SetCountBullets(int count) {
+	if (weapon != NULL)
+	weapon->countBullets = count;
+>>>>>>> e570aee9d4381ff38fee370b873f6334279345d0
 }
 
 void AMyCharacter::LevelUp()
@@ -326,67 +335,112 @@ int AMyCharacter::GetDamageFromBullet()
 
 void AMyCharacter::ReloadWeapon()
 {
-	if (weapon->Reload())
-	{
-		
-
-	}
-
-}
-
-
-
-void AMyCharacter::SaveGame()
-{
-	
 	if (weapon != NULL)
 	{
-
-
-		UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
-		
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::FromInt(Health));
-		UE_LOG(LogTemp, Warning, TEXT("Text: %s"), Health);
-		SaveGameInstance->baseUpRate = BaseLookUpRate;
-		SaveGameInstance->baseTurnRate = BaseTurnRate;
-		SaveGameInstance->killsEnemy = Kills;
-		SaveGameInstance->Bulletcount = weapon->countBullets;
-		SaveGameInstance->bulletInMagazine = weapon->currentBulletsInMagazine;
-		SaveGameInstance->baseVolume = BaseVolume;
-		SaveGameInstance->exp = Expirience;
-		SaveGameInstance->Level = Level;
-		SaveGameInstance->hp = Health;
-		SaveGameInstance->lastHeroLocation = GetActorLocation();
-		SaveGameInstance->lastHeroWeapon = weapon;
-
-
-		UGameplayStatics::SaveGameToSlot(SaveGameInstance, TEXT("Slot1"), 0);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game saved"));
-
+		weapon->Reload();
 	}
 }
 
-void AMyCharacter::LoadGame()
+void AMyCharacter::InitWeaponById(int id)
 {
+	switch (id)
+	{
+	case 0:
+	{
+		auto weaponBuilder = new PistolBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}break;
+	case 1:
+	{
+		auto weaponBuilder = new RifleBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}break;
+	case 2:
+	{
+		auto weaponBuilder = new ShotGunBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}break;
+	case 3:
+	{
+		auto weaponBuilder = new GrenadeBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}break;
 
-	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
-
-	SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot("Slot1", 0));
-
-	//weapon = SaveGameInstance->lastHeroWeapon;
-	BaseLookUpRate = SaveGameInstance->baseUpRate;
-	BaseTurnRate = SaveGameInstance->baseTurnRate;
-	Kills = SaveGameInstance->killsEnemy;
-	weapon->countBullets = SaveGameInstance->Bulletcount;
-	weapon->currentBulletsInMagazine = SaveGameInstance->bulletInMagazine;
-	BaseVolume = SaveGameInstance->baseVolume;
-	Expirience = SaveGameInstance->exp ;
-	Level = SaveGameInstance->Level ;
-	Health = SaveGameInstance->hp ;
-	this->SetActorLocation(SaveGameInstance->lastHeroLocation);
-	
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game loaded"));
+	default:
+	{
+		auto weaponBuilder = new PistolBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}
+	}
 
 }
+
+int AMyCharacter::GetWeaponId()
+{
+	if (weapon != NULL)
+	{
+		return weapon->id;
+	}
+	return 0;
+}
+
+//
+//void AMyCharacter::SaveGame()
+//{
+//	
+//	if (weapon != NULL)
+//	{
+//
+//
+//		UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+//		
+//
+//		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::FromInt(Health));
+//		UE_LOG(LogTemp, Warning, TEXT("Text: %s"), Health);
+//		SaveGameInstance->baseUpRate = BaseLookUpRate;
+//		SaveGameInstance->baseTurnRate = BaseTurnRate;
+//		SaveGameInstance->killsEnemy = Kills;
+//		SaveGameInstance->Bulletcount = weapon->countBullets;
+//		SaveGameInstance->bulletInMagazine = weapon->currentBulletsInMagazine;
+//		SaveGameInstance->baseVolume = BaseVolume;
+//		SaveGameInstance->exp = Expirience;
+//		SaveGameInstance->Level = Level;
+//		SaveGameInstance->hp = Health;
+//		SaveGameInstance->lastHeroLocation = GetActorLocation();
+//		SaveGameInstance->lastHeroWeapon = weapon;
+//
+//
+//		UGameplayStatics::SaveGameToSlot(SaveGameInstance, TEXT("Slot1"), 0);
+//		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game saved"));
+//
+//	}
+//}
+//
+//void AMyCharacter::LoadGame()
+//{
+//
+//	UMySaveGame* SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::CreateSaveGameObject(UMySaveGame::StaticClass()));
+//
+//	SaveGameInstance = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot("Slot1", 0));
+//
+//	//weapon = SaveGameInstance->lastHeroWeapon;
+//	BaseLookUpRate = SaveGameInstance->baseUpRate;
+//	BaseTurnRate = SaveGameInstance->baseTurnRate;
+//	Kills = SaveGameInstance->killsEnemy;
+//	weapon->countBullets = SaveGameInstance->Bulletcount;
+//	weapon->currentBulletsInMagazine = SaveGameInstance->bulletInMagazine;
+//	BaseVolume = SaveGameInstance->baseVolume;
+//	Expirience = SaveGameInstance->exp ;
+//	Level = SaveGameInstance->Level ;
+//	Health = SaveGameInstance->hp ;
+//	this->SetActorLocation(SaveGameInstance->lastHeroLocation);
+//	
+//
+//	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Game loaded"));
+//
+//}

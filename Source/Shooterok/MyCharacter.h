@@ -31,7 +31,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera)
 		float BaseVolume;
 
 	UPROPERTY(VisibleAnywhere)
@@ -131,11 +131,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void Fire();
 
-	UFUNCTION()
-		void SaveGame();
 
-	UFUNCTION()
-		void LoadGame();
 
 	UFUNCTION(BlueprintCallable)
 		void PickUpAmmo();
@@ -174,6 +170,12 @@ public:
 		int GetCountBullets();
 
 	UFUNCTION(BlueprintCallable)
+		void SetBulletsInMagazine(int countInMagazine);
+
+	UFUNCTION(BlueprintCallable)
+		void SetCountBullets(int count);
+
+	UFUNCTION(BlueprintCallable)
 		void GetExpirienceKill(int exp);
 
 	UFUNCTION(BlueprintCallable)
@@ -181,6 +183,12 @@ public:
 		bool FullMagazine();
 	
 	
+	UFUNCTION(BlueprintCallable)
+		int GetWeaponId();
+
+	UFUNCTION(BlueprintCallable)
+		void InitWeaponById(int id);
+
 
 	UFUNCTION()
 		void DealDamage(float Damage);

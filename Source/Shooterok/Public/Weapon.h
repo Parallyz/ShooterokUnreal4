@@ -37,6 +37,9 @@ public:
 		FVector GunOffset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+		int id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int level;
 
 
