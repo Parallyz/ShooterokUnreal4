@@ -177,6 +177,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void GetExpirienceKill(int exp);
+
+	UFUNCTION(BlueprintCallable)
+		
+		bool FullMagazine();
+	
 	
 	UFUNCTION(BlueprintCallable)
 		int GetWeaponId();
