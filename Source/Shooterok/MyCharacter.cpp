@@ -245,15 +245,15 @@ void AMyCharacter::DealDamage(float Damage)
 		Health = 0;
 }
 
-<<<<<<< HEAD
+
 bool AMyCharacter::FullMagazine()
 {
 	return weapon->IsMagazineFool();
-=======
+}
 void AMyCharacter::SetCountBullets(int count) {
 	if (weapon != NULL)
 	weapon->countBullets = count;
->>>>>>> e570aee9d4381ff38fee370b873f6334279345d0
+
 }
 
 void AMyCharacter::LevelUp()

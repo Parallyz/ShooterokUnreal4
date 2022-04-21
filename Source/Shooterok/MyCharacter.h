@@ -190,7 +190,7 @@ public:
 		void InitWeaponById(int id);
 
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		void DealDamage(float Damage);
 
 	UFUNCTION(BlueprintCallable)

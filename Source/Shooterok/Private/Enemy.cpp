@@ -11,7 +11,7 @@ AEnemy::AEnemy()
 	PrimaryActorTick.bCanEverTick = true;
 
 	healthPoint = 100;
-	
+	damageFromBullets = 10;
 	//DamageCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("DamageCollision"));
 
 	//DamageCollision->OnComponentBeginOverlap.Add(&AEnemy::OnHit)//.AddDynamic(this, );
