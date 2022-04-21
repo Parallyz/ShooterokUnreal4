@@ -51,7 +51,7 @@ Weapon* WeaponBuilder::GetWeapon() { return this->weapon; }
 void WeaponBuilder::CreateWeapon()
 {
 	this->weapon = new Weapon();
-
+	weapon->id = 0;
 	
 }
 
@@ -125,6 +125,7 @@ void RifleBuilder::CreateWeapon()
 
 	RifleBuilder::SetMaxCountBullet();
 
+	weapon->id = 1;
 
 	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
 
@@ -198,6 +199,7 @@ void PistolBuilder::CreateWeapon()
 
 	PistolBuilder::SetMaxCountBullet();
 
+	weapon->id = 0;
 
 	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
 
@@ -272,6 +274,7 @@ void ShotGunBuilder::CreateWeapon()
 	ShotGunBuilder::SetMagazineEmptySound();
 
 	ShotGunBuilder::SetMaxCountBullet();
+	weapon->id = 2;
 
 
 	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
@@ -342,7 +345,7 @@ void GrenadeBuilder::CreateWeapon()
 	GrenadeBuilder::SetMagazineEmptySound();
 	GrenadeBuilder::SetMaxCountBullet();
 
-
+	weapon->id = 3;
 	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
 
 }

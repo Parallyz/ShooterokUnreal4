@@ -103,14 +103,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::StopJump);
 
-	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacter::Fire);
 
-	//PlayerInputComponent->BindAction("SaveGame", IE_Pressed, this, &AMyCharacter::SaveGame);
-	//PlayerInputComponent->BindAction("LoadGame", IE_Pressed, this, &AMyCharacter::LoadGame);
-
-
-
-	//PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMyCharacter::ReloadWeapon);
 
 }
 
@@ -137,51 +130,53 @@ void AMyCharacter::StopJump()
 }
 void AMyCharacter::Fire()
 {
-
-	if (ProjectileClass && weapon->Fire() && isCanFire)
+	if (weapon != NULL)
 	{
 
-		FVector CameraLocation;
-		FRotator CameraRotation;
-		GetActorEyesViewPoint(CameraLocation, CameraRotation);
-
-
-		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
-		FRotator MuzzleRotation = CameraRotation;
-
-
-		if (pooler->IfInit())
+		if (ProjectileClass && weapon->Fire() && isCanFire)
 		{
-			currentProjectile = pooler->GetProjectileToShoot();
-			if (currentProjectile != NULL)
+
+			FVector CameraLocation;
+			FRotator CameraRotation;
+			GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+
+			FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(weapon->MuzzleOffset);
+			FRotator MuzzleRotation = CameraRotation;
+
+
+			if (pooler->IfInit())
 			{
-				currentProjectile->SetActorLocation(MuzzleLocation);
+				currentProjectile = pooler->GetProjectileToShoot();
+				if (currentProjectile != NULL)
+				{
+					currentProjectile->SetActorLocation(MuzzleLocation);
 
 
 
-				FVector LaunchDirection = MuzzleRotation.Vector();
+					FVector LaunchDirection = MuzzleRotation.Vector();
 
-				//currentProjectile->SetActorHiddenInGame(true);
+					//currentProjectile->SetActorHiddenInGame(true);
 
-				currentProjectile->FireInDirection(LaunchDirection);
-				GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);
+					currentProjectile->FireInDirection(LaunchDirection);
+					GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AMyCharacter::ResetProjectile, 1.0f, false, 0.5f);
+
+				}
 
 			}
 
+
+
+
 		}
 
-		
-
-
-	}
-
-	else if (weapon->currentBulletsInMagazine == 0) {
-		if (weapon->EmptyMagazineSound != nullptr)
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, weapon->EmptyMagazineSound, GetActorLocation());
+		else if (weapon->currentBulletsInMagazine == 0) {
+			if (weapon->EmptyMagazineSound != nullptr)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, weapon->EmptyMagazineSound, GetActorLocation());
+			}
 		}
 	}
-
 }
 
 void AMyCharacter::ResetProjectile()
@@ -221,6 +216,7 @@ void AMyCharacter::InitPooler()
 
 void AMyCharacter::PickUpAmmo()
 {
+	if(weapon!=NULL)
 	weapon->countBullets += weapon->maxBulletsInMagazine;
 }
 
@@ -237,6 +233,7 @@ float AMyCharacter::PickUpHp()
 
 void AMyCharacter::SetBulletsInMagazine(int count)
 {
+	if (weapon != NULL)
 	weapon->currentBulletsInMagazine = count;
 }
 
@@ -249,6 +246,7 @@ void AMyCharacter::DealDamage(float Damage)
 }
 
 void AMyCharacter::SetCountBullets(int count) {
+	if (weapon != NULL)
 	weapon->countBullets = count;
 }
 
@@ -331,14 +329,59 @@ int AMyCharacter::GetDamageFromBullet()
 
 void AMyCharacter::ReloadWeapon()
 {
-	if (weapon->Reload())
+	if (weapon != NULL)
 	{
-		
+		weapon->Reload();
+	}
+}
 
+void AMyCharacter::InitWeaponById(int id)
+{
+	switch (id)
+	{
+	case 0:
+	{
+		auto weaponBuilder = new PistolBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}break;
+	case 1:
+	{
+		auto weaponBuilder = new RifleBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}break;
+	case 2:
+	{
+		auto weaponBuilder = new ShotGunBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}break;
+	case 3:
+	{
+		auto weaponBuilder = new GrenadeBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}break;
+
+	default:
+	{
+		auto weaponBuilder = new PistolBuilder();
+		weaponBuilder->CreateWeapon();
+		weapon = weaponBuilder->GetWeapon();
+	}
 	}
 
 }
 
+int AMyCharacter::GetWeaponId()
+{
+	if (weapon != NULL)
+	{
+		return weapon->id;
+	}
+	return 0;
+}
 
 //
 //void AMyCharacter::SaveGame()

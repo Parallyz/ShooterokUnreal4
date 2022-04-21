@@ -178,6 +178,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void GetExpirienceKill(int exp);
 	
+	UFUNCTION(BlueprintCallable)
+		int GetWeaponId();
+
+	UFUNCTION(BlueprintCallable)
+		void InitWeaponById(int id);
+
 
 	UFUNCTION()
 		void DealDamage(float Damage);
