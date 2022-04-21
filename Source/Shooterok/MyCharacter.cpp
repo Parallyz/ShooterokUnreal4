@@ -39,9 +39,9 @@ AMyCharacter::AMyCharacter()
 	FPSMesh->bCastDynamicShadow = false;
 	FPSMesh->CastShadow = false;
 
-	auto weaponBuilder = new RifleBuilder();
+	/*auto weaponBuilder = new RifleBuilder();
 	weaponBuilder->CreateWeapon();
-	weapon = weaponBuilder->GetWeapon();
+	weapon = weaponBuilder->GetWeapon();*/
 
 
 	FPSMesh->SetRelativeLocation(FVector(6.8f, 8.75f, -17.47f));
@@ -171,10 +171,10 @@ void AMyCharacter::Fire()
 		}
 
 		else if (weapon->currentBulletsInMagazine == 0) {
-			if (weapon->EmptyMagazineSound != nullptr)
+			/*if (weapon->EmptyMagazineSound != nullptr)
 			{
 				UGameplayStatics::PlaySoundAtLocation(this, weapon->EmptyMagazineSound, GetActorLocation());
-			}
+			}*/
 		}
 	}
 }
@@ -341,37 +341,38 @@ void AMyCharacter::InitWeaponById(int id)
 	{
 	case 0:
 	{
-		auto weaponBuilder = new PistolBuilder();
-		weaponBuilder->CreateWeapon();
-		weapon = weaponBuilder->GetWeapon();
+		 weaponBuilder = new PistolBuilder();
+	
+		
+				
 	}break;
 	case 1:
 	{
-		auto weaponBuilder = new RifleBuilder();
-		weaponBuilder->CreateWeapon();
-		weapon = weaponBuilder->GetWeapon();
+		 weaponBuilder = new RifleBuilder();
+		
 	}break;
 	case 2:
 	{
-		auto weaponBuilder = new ShotGunBuilder();
-		weaponBuilder->CreateWeapon();
-		weapon = weaponBuilder->GetWeapon();
+		 weaponBuilder = new ShotGunBuilder();
+	
 	}break;
 	case 3:
 	{
-		auto weaponBuilder = new GrenadeBuilder();
-		weaponBuilder->CreateWeapon();
-		weapon = weaponBuilder->GetWeapon();
+		 weaponBuilder = new GrenadeBuilder();
+	
 	}break;
 
 	default:
 	{
-		auto weaponBuilder = new PistolBuilder();
-		weaponBuilder->CreateWeapon();
-		weapon = weaponBuilder->GetWeapon();
+		 weaponBuilder = new PistolBuilder();
+	
 	}
 	}
+	weaponBuilder->CreateWeapon();
+	weapon = weaponBuilder->GetWeapon();
 
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, weapon->name);
 }
 
 int AMyCharacter::GetWeaponId()

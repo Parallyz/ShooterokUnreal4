@@ -121,12 +121,12 @@ void RifleBuilder::CreateWeapon()
 
 	RifleBuilder::SetMuzzleOffset();
 	RifleBuilder::SetCountBullet();
-	RifleBuilder::SetMagazineEmptySound();
+	//RifleBuilder::SetMagazineEmptySound();
 
 	RifleBuilder::SetMaxCountBullet();
 
 	weapon->id = 1;
-
+	weapon->name = "Rifle";
 	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
 
 }
@@ -195,12 +195,12 @@ void PistolBuilder::CreateWeapon()
 	
 	PistolBuilder::SetMuzzleOffset();
 	PistolBuilder::SetCountBullet();
-	PistolBuilder::SetMagazineEmptySound();
+	//PistolBuilder::SetMagazineEmptySound();
 
 	PistolBuilder::SetMaxCountBullet();
 
 	weapon->id = 0;
-
+	weapon->name = "Pistol";
 	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
 
 }
@@ -271,11 +271,11 @@ void ShotGunBuilder::CreateWeapon()
 
 	ShotGunBuilder::SetMuzzleOffset();
 	ShotGunBuilder::SetCountBullet();
-	ShotGunBuilder::SetMagazineEmptySound();
+	//ShotGunBuilder::SetMagazineEmptySound();
 
 	ShotGunBuilder::SetMaxCountBullet();
 	weapon->id = 2;
-
+	weapon->name = "ShotGun";
 
 	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
 
@@ -342,9 +342,9 @@ void GrenadeBuilder::CreateWeapon()
 	GrenadeBuilder::SetLevelOfWeapon();
 	GrenadeBuilder::SetMuzzleOffset();
 	GrenadeBuilder::SetCountBullet();
-	GrenadeBuilder::SetMagazineEmptySound();
+	//GrenadeBuilder::SetMagazineEmptySound();
 	GrenadeBuilder::SetMaxCountBullet();
-
+	weapon->name = "Granader";
 	weapon->id = 3;
 	weapon->currentBulletsInMagazine = weapon->maxBulletsInMagazine;
 

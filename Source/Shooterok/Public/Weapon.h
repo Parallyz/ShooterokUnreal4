@@ -40,6 +40,9 @@ public:
 		int id;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+		FString name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		int level;
 
 

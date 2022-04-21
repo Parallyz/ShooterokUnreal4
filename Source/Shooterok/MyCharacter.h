@@ -47,7 +47,7 @@ public:
 
 	ObjectPooler* pooler;
 
-
+	WeaponBuilder* weaponBuilder;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 		float HealthPrecentage;
