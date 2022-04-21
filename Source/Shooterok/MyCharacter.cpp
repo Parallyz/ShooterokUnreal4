@@ -68,9 +68,6 @@ void AMyCharacter::LookUpAtRate(float Rate)
 // Called when the game starts or when spawned
 void AMyCharacter::BeginPlay()
 {
-
-	Super::BeginPlay();
-	InitPooler();
 	FullHealth = 100.0f;
 	Health = 30;
 
@@ -80,6 +77,9 @@ void AMyCharacter::BeginPlay()
 	Stamina = FullStamina;
 	isCanFire = true;
 	Level = 1;
+	Super::BeginPlay();
+	InitPooler();
+	
 
 }
 
@@ -372,7 +372,7 @@ void AMyCharacter::InitWeaponById(int id)
 	weapon = weaponBuilder->GetWeapon();
 
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, weapon->name);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, weapon->name);
 }
 
 int AMyCharacter::GetWeaponId()
