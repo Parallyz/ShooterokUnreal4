@@ -69,7 +69,7 @@ void AMyCharacter::LookUpAtRate(float Rate)
 void AMyCharacter::BeginPlay()
 {
 	FullHealth = 100.0f;
-	Health = 30;
+	Health = 100;
 
 	BaseVolume = 1.f;
 	Kills = 0;
