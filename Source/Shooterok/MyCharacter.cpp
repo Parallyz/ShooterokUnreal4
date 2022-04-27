@@ -53,7 +53,7 @@ AMyCharacter::AMyCharacter()
 
 }
 
-int AMyCharacter::GetMaxInMagazin()
+int AMyCharacter::GetMaxBulletInMagazine()
 {
 	if (weapon != NULL)
 	{

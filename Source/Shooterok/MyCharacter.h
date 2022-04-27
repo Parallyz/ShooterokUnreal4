@@ -200,8 +200,7 @@ public:
 		void InitPooler();
 
 	UFUNCTION(BlueprintCallable)
-
-		int GetMaxInMagazin();
+		int GetMaxBulletInMagazine();
 		
 	   
 };
