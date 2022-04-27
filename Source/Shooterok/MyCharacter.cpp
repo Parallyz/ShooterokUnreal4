@@ -53,6 +53,14 @@ AMyCharacter::AMyCharacter()
 
 }
 
+int AMyCharacter::GetMaxInMagazin()
+{
+	if (weapon != NULL)
+	{
+		return weapon->maxBulletsInMagazine;
+	}
+	return 0;
+}
 
 
 void AMyCharacter::TurnAtRate(float Rate)
