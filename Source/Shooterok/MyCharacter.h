@@ -198,4 +198,10 @@ public:
 
 	UFUNCTION()
 		void InitPooler();
+
+	UFUNCTION(BlueprintCallable)
+
+		int GetMaxInMagazin();
+		
+	   
 };
